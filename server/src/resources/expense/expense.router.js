@@ -14,11 +14,11 @@ router
     const category = req.body.category;
     if (amount && category) {
       try {
-        const expense = await Expense.create({amount, category});
+        const expense = await Expense.create({...req.body, date: new Date()});
         return res.status(201).send({expense}).end();
       } catch(err) {
         console.error(err);
-        return res.status(400).send({message: 'item already exist'}).end();
+        return res.status(400).send({message: 'Probably wrong category value'}).end();
       }
     } else {
       return res.status(400).send({message: 'amount or category info missing in request.'}).end();

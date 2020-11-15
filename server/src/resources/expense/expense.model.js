@@ -8,8 +8,15 @@ const expense = new mongoose.Schema({
   category: {
     type: String,
     required: true,
-    unique: true,
+    enum: ['sport', 'cloths', 'sport gear', 'bills', 'softwear', 'food', 'other']
+  },
+  description: {
+    type: String,
     trim: true
+  },
+  date: {
+    type: Date,
+    required: true,
   }
 });
 

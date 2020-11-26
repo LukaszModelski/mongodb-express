@@ -5,7 +5,7 @@ import expenseRouter from "./resources/expense/expense.router";
 const app = express();
 
 const serverConfig = {
-  port: 3000
+  port: process.env.PORT || 3000
 }
 
 app.get('/api', (req, res) => {

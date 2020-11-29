@@ -2,4 +2,7 @@
 ## Server
 Go to `server/` directory.
 * **npm server** - runs server
-* **npm build** - build files to dist/ directory
+* **npm build-dev** - build development bundle in dist/index.js 
+* **npm build-prod** - build production bundle in dist/index.js
+## MongoDB
+## Heroku

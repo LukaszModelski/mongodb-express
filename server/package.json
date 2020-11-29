@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "server": "npm run build && node ./dist/index.js",
-    "build": "babel src/ -d dist",
-    "webpack": "webpack"
+    "server": "npm run build-dev && node ./dist/index.js",
+    "build-dev": "webpack --mode development",
+    "build-prod": "webpack --mode production"
   },
   "author": "",
   "license": "ISC",

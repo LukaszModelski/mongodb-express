@@ -17,19 +17,5 @@ module.exports = {
       }
     ]
   },
-  resolve: {
-    fallback: {
-      "zlib": false,
-      "querystring": false,
-      "path": false,
-      "buffer": false,
-      "crypto": false,
-      "stream": false,
-      "http": false,
-      "url": false,
-      "fs": false,
-      "net": false,
-      "util": false
-    }
-  }
+  target: 'node'
 }

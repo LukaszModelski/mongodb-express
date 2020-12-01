@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { Expense } from "./expense.model";
+import { Expense, categories } from "./expense.model";
 
 const router = Router();
 
@@ -7,7 +7,7 @@ router
   .route('/')
   .get(async (req, res) => {
     const expenses = await Expense.find({});
-    res.status(200).send({expenses}).end();
+    res.status(200).send({expenses, categories}).end();
   })
   .post(async (req, res) => {
     const amount = req.body.amount;

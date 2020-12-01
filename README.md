@@ -1,4 +1,9 @@
 # API with Mongodb and Express
+## Client
+React Native App with Expo CLI Quickstart.
+https://reactnative.dev/docs/environment-setup
+
+* `npm run web` - to start local dev, and open it in web
 ## Server
 Go to `server/` directory.
 * **npm server** - runs server

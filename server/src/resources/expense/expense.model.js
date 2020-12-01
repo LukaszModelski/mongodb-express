@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+const expenseCategories = ['sport', 'cloths', 'sport gear', 'bills', 'softwear', 'food', 'other'];
+
 const expense = new mongoose.Schema({
   amount: {
     type: Number,
@@ -8,7 +10,7 @@ const expense = new mongoose.Schema({
   category: {
     type: String,
     required: true,
-    enum: ['sport', 'cloths', 'sport gear', 'bills', 'softwear', 'food', 'other']
+    enum: expenseCategories
   },
   description: {
     type: String,
@@ -20,4 +22,5 @@ const expense = new mongoose.Schema({
   }
 });
 
+export const categories = expenseCategories;
 export const Expense = mongoose.model('expense', expense);

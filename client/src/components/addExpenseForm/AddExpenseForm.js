@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { TextInput, Text ,Picker } from 'react-native';
+import { View, TextInput, Text ,Picker } from 'react-native';
 import { useSelector } from 'react-redux';
+import { viewStyles } from "../view/view.styles";
 
 export const AddExpenseForm = () => {
   const expensesCategories = useSelector(state => state.expensesCategories)
@@ -15,7 +16,7 @@ export const AddExpenseForm = () => {
   const renderPickerList = (list) => list.map(item => renderPickerItem(item));
 
   return (
-    <>
+    <View style={viewStyles.container}>
       <Text>Amount</Text>
       <TextInput placeholder="0.00 zł" />
       <Text>Description</Text>
@@ -28,6 +29,6 @@ export const AddExpenseForm = () => {
         >
         {renderPickerList(expensesCategories)}
       </Picker>
-    </>
+    </View>
   );
 }

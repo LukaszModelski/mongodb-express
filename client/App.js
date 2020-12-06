@@ -1,8 +1,12 @@
 
 import React from 'react';
-import { MainView } from "./src/components/mainView/MainView";
-import { Provider } from 'react-redux';
 import { createStore, compose } from 'redux'
+import { Provider } from 'react-redux';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
+import { ExpensesList } from "./src/components/expensesList/ExpensesList";
+import { AddExpenseForm } from "./src/components/addExpenseForm/AddExpenseForm";
 import { reducers } from "./src/store/reducers";
 
 const store = createStore(
@@ -12,11 +16,18 @@ const store = createStore(
   )
 )
 
+const Stack = createStackNavigator();
+
 export default function App() {
 
   return (
     <Provider store={store}>
-      <MainView />
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="ExpensesList" component={ExpensesList} />
+          <Stack.Screen name="AddExpenseForm" component={AddExpenseForm} />
+        </Stack.Navigator>
+      </NavigationContainer>
     </Provider>
   );
 }

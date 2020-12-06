@@ -5,7 +5,7 @@ import { setExpenses, setExpensesCategories } from "../../store/actions";
 import axios from 'axios';
 
 import { ExpensesList } from "../expensesList/ExpensesList";
-import { Form } from "../form/Form";
+import { AddExpenseForm } from "../addExpenseForm/AddExpenseForm";
 
 export const MainView = () => {
   const dispatch = useDispatch();
@@ -23,7 +23,7 @@ export const MainView = () => {
 
   return (
     <View style={styles.container}>
-      <Form />
+      <AddExpenseForm />
       <ExpensesList />
     </View>
   );

@@ -1,34 +1,54 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Button } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { setExpenses, setExpensesCategories } from "../../store/actions";
 import { viewStyles } from "../view/view.styles";
+import { listStyles } from "./ExpensesList.styles";
 import axios from 'axios';
 
 export const ExpensesList = ({navigation}) => {
   const dispatch = useDispatch();
   const expenses = useSelector(state => state.expenses);
+  const [sum, setSum] = useState();
 
   useEffect(() => {
     axios.get('https://nodejs-expenses.herokuapp.com/api/expense')
       .then(function (response) {
         dispatch(setExpenses(response.data.expenses));
         dispatch(setExpensesCategories(response.data.categories));
+        setSum(calculateSum(response.data.expenses));
       })
       .catch(function (error) {
         console.log(error);
       })
   }, []);
 
-  const renderExpenseItem = (listItem) => <Text key={listItem._id} >{listItem.description}, cat: {listItem.category}, amount: {listItem.amount}</Text>;
+  const calculateSum = (expensesArray) => {
+    return expensesArray.reduce((prev, curr) => {
+      return {amount: prev.amount + curr.amount}
+    }).amount;
+  }
 
-  const renderExpenseList = list => list.map(item => renderExpenseItem(item));
+  const renderExpenseItem = (listItem) => {
+    return <View style={listStyles.listItem} key={listItem._id}>
+      <View style={listStyles.descriptionContainer}>
+        <Text style={[listStyles.amount, listStyles.textBlue]}>{listItem.amount} zł</Text>
+        <Text style={[listStyles.description, listStyles.textBlue]}>{listItem.category} - {listItem.description}</Text>
+      </View>
+      <Text style={[listStyles.data]}>12.12.2020</Text>
+    </View>
+  }
 
+  const renderExpenseList = list => {
+   return <View  style={listStyles.list}>
+     {list.map(item => renderExpenseItem(item))}
+   </View>
+  }
   return (
     <View style={viewStyles.container}>
-      <Text>List of expenses:</Text>
       {renderExpenseList(expenses)}
+      {sum ? <Text style={listStyles.sum}>Sum: {sum} zł</Text> : ''}
       <Button
         title="Add expense"
         onPress={() => navigation.navigate('AddExpenseForm')}

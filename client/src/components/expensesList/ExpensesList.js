@@ -50,7 +50,7 @@ export const ExpensesList = ({navigation}) => {
       {renderExpenseList(expenses)}
       {sum ? <Text style={listStyles.sum}>Sum: {sum} zł</Text> : ''}
       <Button
-        title="Add expense"
+        title="New expense"
         onPress={() => navigation.navigate('AddExpenseForm')}
       />
     </View>

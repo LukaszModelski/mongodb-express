@@ -2,15 +2,15 @@ import { StyleSheet } from 'react-native';
 
 export const utilStyles = StyleSheet.create({
   paddingLeft5: {
-    paddingLeft: '5px'
+    paddingLeft: 5
   },
   paddingRight5: {
-    paddingRight: '5px'
+    paddingRight: 5
   },
   paddingLeft10: {
-    paddingLeft: '10px'
+    paddingLeft: 10
   },
   paddingRight10: {
-    paddingRight: '10px'
+    paddingRight: 10
   }
 });

@@ -3,25 +3,24 @@ import { colors } from "../../vars/colors";
 
 export const listStyles = StyleSheet.create({
   list: {
-    marginBottom: '10px'
+    marginBottom: 10
   },
   listItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
-    marginBottom: '10px',
+    marginBottom: 10,
   },
   descriptionContainer: {
     flexDirection: 'row',
   },
   amount: {
-    width: '50px',
-    borderRightWidth: '3px',
-    borderRightColor: colors.blue,
-    borderStyle: 'solid',
+    width: 50,
+    borderRightWidth: 3,
+    borderRightColor: colors.blue
   },
   description: {
-    paddingLeft: '10px',
+    paddingLeft: 10,
   },
   data: {
     color: colors.gray
@@ -33,6 +32,6 @@ export const listStyles = StyleSheet.create({
   sum: {
     color: colors.gray,
     fontWeight: '700',
-    marginBottom: '20px'
+    marginBottom: 20
   }
 });

@@ -54,7 +54,6 @@ export const AddExpenseForm = () => {
       </View>
       <Button
         title="Add expense"
-        onPress={() => navigation.navigate('AddExpenseForm')}
       />
     </View>
   );

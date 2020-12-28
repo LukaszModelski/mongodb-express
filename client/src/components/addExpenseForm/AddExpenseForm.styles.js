@@ -5,24 +5,25 @@ export const formStyles = StyleSheet.create({
   flex: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginBottom: '20px'
+    marginBottom: 20
   },
   labelInputWrapper: {
-    marginBottom: '5px',
+    marginBottom: 5,
     width: '100%'
   },
   wrapperShort: {
     width: '50%'
   },
   label: {
-    marginBottom: '5px'
+    marginBottom: 5
   },
   input: {
-    border: `1px solid ${colors.gray}`,
-    paddingVertical: '10px',
-    paddingHorizontal: '5px'
+    borderWidth: 1,
+    borderColor: colors.gray,
+    paddingVertical: 10,
+    paddingHorizontal: 5
   },
   picker: {
-    paddingVertical: '8px',
+    paddingVertical: 8,
   }
 });

@@ -17,8 +17,7 @@ export const listStyles = StyleSheet.create({
   amount: {
     width: 50,
     borderRightWidth: 3,
-    borderRightColor: colors.blue,
-    borderStyle: 'solid',
+    borderRightColor: colors.blue
   },
   description: {
     paddingLeft: 10,

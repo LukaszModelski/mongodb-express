@@ -23,7 +23,12 @@ export const formStyles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 5
   },
+  pickerWrapper: {
+    borderWidth: 1,
+    borderColor: colors.gray
+  },
   picker: {
+    borderWidth: 0,
     paddingVertical: 8,
   }
 });

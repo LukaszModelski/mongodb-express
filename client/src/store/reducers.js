@@ -1,4 +1,4 @@
-import { SET_EXPENSES, SET_EXPENSES_CATEGORIES } from "./actions";
+import { SET_EXPENSES, SET_EXPENSES_CATEGORIES, ADD_EXPENSE } from "./actions";
 
 const initialState = {
   expenses: [],
@@ -11,6 +11,14 @@ export function reducers(state = initialState, action) {
       return {
         ...state,
         expenses: action.expenses
+      }
+    case ADD_EXPENSE:
+      return {
+        ...state,
+        expenses: [
+          ...state.expenses,
+          action.expense
+        ]
       }
     case SET_EXPENSES_CATEGORIES:
       return {

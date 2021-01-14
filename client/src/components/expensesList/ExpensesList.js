@@ -1,11 +1,10 @@
-
 import React, { useEffect, useState } from 'react';
 import { View, Text, Button } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { setExpenses, setExpensesCategories } from "../../store/actions";
 import { viewStyles } from "../view/view.styles";
 import { listStyles } from "./ExpensesList.styles";
-import axios from 'axios';
+import { fetchExpenses } from "../../utils/api";
 
 export const ExpensesList = ({navigation}) => {
   const dispatch = useDispatch();
@@ -13,15 +12,17 @@ export const ExpensesList = ({navigation}) => {
   const [sum, setSum] = useState();
 
   useEffect(() => {
-    axios.get('https://nodejs-expenses.herokuapp.com/api/expense')
-      .then(function (response) {
+    const initExpenses = async () => {
+      try {
+        const response = await fetchExpenses();
         dispatch(setExpenses(response.data.expenses));
         dispatch(setExpensesCategories(response.data.categories));
         setSum(calculateSum(response.data.expenses));
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    initExpenses();
   }, []);
 
   const calculateSum = (expensesArray) => {
@@ -34,7 +35,10 @@ export const ExpensesList = ({navigation}) => {
     return <View style={listStyles.listItem} key={listItem._id}>
       <View style={listStyles.descriptionContainer}>
         <Text style={[listStyles.amount, listStyles.textBlue]}>{listItem.amount} zł</Text>
-        <Text style={[listStyles.description, listStyles.textBlue]}>{listItem.category} - {listItem.description}</Text>
+        <Text style={[listStyles.description, listStyles.textBlue]}>
+          {listItem.category}
+          {listItem.description ? ` - ${listItem.description}` : ''}
+        </Text>
       </View>
       <Text style={[listStyles.data]}>12.12.2020</Text>
     </View>
@@ -45,6 +49,7 @@ export const ExpensesList = ({navigation}) => {
      {list.map(item => renderExpenseItem(item))}
    </View>
   }
+  
   return (
     <View style={viewStyles.container}>
       {renderExpenseList(expenses)}

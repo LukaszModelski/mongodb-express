@@ -1,24 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import { View, TextInput, Text, Button, Picker } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { addExpense } from "../../store/actions";
 import { viewStyles } from "../view/view.styles";
 import { utilStyles } from "../view/utils.styles";
 import { formStyles } from "./AddExpenseForm.styles";
-import { colors } from "../../vars/colors";
+import { postNewExpense } from "../../utils/api";
 
 export const AddExpenseForm = () => {
+  const dispatch = useDispatch();
   const expensesCategories = useSelector(state => state.expensesCategories)
-  const [selectedValue, setSelectedValue] = useState(expensesCategories[0]);
-  const [amountInputRef, setAmountInputRef] = useState();
-  const [descriptionInputRef, setDescriptionInputRef] = useState();
+  const [amount, setAmount] = useState();
+  const [category, setCategory] = useState(expensesCategories[0]);
+  const [description, setDescription] = useState();
 
   useEffect(() => {
-    setSelectedValue(expensesCategories[0]);
+    setCategory(expensesCategories[0]);
   }, [expensesCategories]);
 
   const renderPickerItem = (item) => <Picker.Item key={item} label={item} value={item} />
 
   const renderPickerList = (list) => list.map(item => renderPickerItem(item));
+
+  const handleAddExpenseBtn = async (amount, cat, desc) => {
+    if(parseInt(amount)) {
+      const response = await postNewExpense(amount, cat, desc);
+      dispatch(addExpense(response.data.expense));
+      // TO DO: add UI notification about success
+    } else {
+      // TO DO: add UI notification about wrong amount format
+      console.error('Amount must be number');
+    }
+  }
 
   return (
     <View style={viewStyles.container}>
@@ -28,16 +41,16 @@ export const AddExpenseForm = () => {
           <TextInput
             style={formStyles.input}
             placeholder="0.00 zł"
-            ref={ref => setAmountInputRef(ref)}
+            onChangeText={amount => setAmount(amount)}
           />
         </View>
         <View style={[formStyles.labelInputWrapper, formStyles.wrapperShort, utilStyles.paddingLeft5]}>
           <Text style={formStyles.label}>Select category</Text>
           <View style={formStyles.pickerWrapper}>
             <Picker
-              selectedValue={selectedValue}
+              selectedValue={category}
               style={formStyles.picker}
-              onValueChange={(itemValue) => setSelectedValue(itemValue)}
+              onValueChange={(cat) => setCategory(cat)}
               >
               {renderPickerList(expensesCategories)}
             </Picker>
@@ -48,12 +61,13 @@ export const AddExpenseForm = () => {
           <TextInput
             style={formStyles.input}
             placeholder="lorem ipsum..."
-            ref={ref => setDescriptionInputRef(ref)}
+            onChangeText={desc => setDescription(desc)}
           />
         </View>
       </View>
       <Button
         title="Add expense"
+        onPress={() => handleAddExpenseBtn(amount, category, description)}
       />
     </View>
   );

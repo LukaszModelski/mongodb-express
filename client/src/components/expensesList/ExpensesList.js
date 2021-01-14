@@ -12,7 +12,7 @@ export const ExpensesList = ({navigation}) => {
   const [sum, setSum] = useState();
 
   useEffect(() => {
-    const initExpensesList = async () => {
+    const initExpenses = async () => {
       try {
         const response = await fetchExpenses();
         dispatch(setExpenses(response.data.expenses));
@@ -22,7 +22,7 @@ export const ExpensesList = ({navigation}) => {
         console.error(error);
       }
     }
-    initExpensesList();
+    initExpenses();
   }, []);
 
   const calculateSum = (expensesArray) => {
@@ -49,6 +49,7 @@ export const ExpensesList = ({navigation}) => {
      {list.map(item => renderExpenseItem(item))}
    </View>
   }
+  
   return (
     <View style={viewStyles.container}>
       {renderExpenseList(expenses)}

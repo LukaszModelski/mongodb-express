@@ -29,18 +29,19 @@ export const AddExpenseForm = () => {
             style={formStyles.input}
             placeholder="0.00 zł"
             ref={ref => setAmountInputRef(ref)}
-            onFocus={() => amountInputRef.style.outlineColor = colors.blue}
           />
         </View>
         <View style={[formStyles.labelInputWrapper, formStyles.wrapperShort, utilStyles.paddingLeft5]}>
           <Text style={formStyles.label}>Select category</Text>
-          <Picker
-            selectedValue={selectedValue}
-            style={[formStyles.input, formStyles.picker]}
-            onValueChange={(itemValue) => setSelectedValue(itemValue)}
-            >
-            {renderPickerList(expensesCategories)}
-          </Picker>
+          <View style={formStyles.pickerWrapper}>
+            <Picker
+              selectedValue={selectedValue}
+              style={formStyles.picker}
+              onValueChange={(itemValue) => setSelectedValue(itemValue)}
+              >
+              {renderPickerList(expensesCategories)}
+            </Picker>
+          </View>
         </View>
         <View style={formStyles.labelInputWrapper}>
           <Text style={formStyles.label}>Description</Text>
@@ -48,7 +49,6 @@ export const AddExpenseForm = () => {
             style={formStyles.input}
             placeholder="lorem ipsum..."
             ref={ref => setDescriptionInputRef(ref)}
-            onFocus={() => descriptionInputRef.style.outlineColor = colors.blue}
           />
         </View>
       </View>

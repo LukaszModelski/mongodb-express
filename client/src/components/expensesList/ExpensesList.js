@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Text, Button, ScrollView  } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { setExpenses, setExpensesCategories } from "../../store/actions";
 import { viewStyles } from "../view/view.styles";
@@ -52,12 +52,14 @@ export const ExpensesList = ({navigation}) => {
   
   return (
     <View style={viewStyles.container}>
+      <ScrollView>
       {renderExpenseList(expenses)}
       {sum ? <Text style={listStyles.sum}>Sum: {sum} zł</Text> : <Text></Text>}
       <Button
         title="New expense"
         onPress={() => navigation.navigate('AddExpenseForm')}
-      />
+        />
+      </ScrollView>
     </View>
   );
 }

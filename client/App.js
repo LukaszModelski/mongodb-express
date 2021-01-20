@@ -24,8 +24,8 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="ExpensesList" component={ExpensesList} />
-          <Stack.Screen name="AddExpenseForm" component={AddExpenseForm} />
+          <Stack.Screen options={{title: 'Expenses'}} name="ExpensesList" component={ExpensesList} />
+          <Stack.Screen options={{title: 'New Expense'}} name="AddExpenseForm" component={AddExpenseForm} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

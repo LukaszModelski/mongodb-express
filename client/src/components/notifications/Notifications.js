@@ -7,7 +7,7 @@ export const Notifications = () => {
   const showNotification = useSelector(state => state.showNotification);
 
   return (
-    <View >
+    <View style={notificationsStyles.notificationContainer}>
       { showNotification.success ? <Text style={notificationsStyles.notificationSuccess}>Expense added successfully.</Text> : <></> }
       { showNotification.fail ? <Text style={notificationsStyles.notificationFalse}>Something went wrong.</Text> : <></> }
       { showNotification.amountRequired ? <Text style={notificationsStyles.notificationFalse}>"Amount" is required and must be a number. </Text> : <></> }

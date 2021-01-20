@@ -19,9 +19,9 @@ export const AddExpenseForm = () => {
   const dispatch = useDispatch();
   const expensesCategories = useSelector(state => state.expensesCategories);
   const loaderActive = useSelector(state => state.loaderActive);
-  const [amount, setAmount] = useState();
+  const [amount, setAmount] = useState('');
   const [category, setCategory] = useState(expensesCategories[0]);
-  const [description, setDescription] = useState();
+  const [description, setDescription] = useState('');
 
   useEffect(() => {
     setCategory(expensesCategories[0]);
@@ -77,7 +77,6 @@ export const AddExpenseForm = () => {
         <View style={[formStyles.labelInputWrapper, formStyles.wrapperShort, utilStyles.paddingLeft5]}>
           <Text style={formStyles.label}>Select category</Text>
           <View style={formStyles.pickerWrapper}>
-            {/* TO DO: error about controled/uncntrolled input */}
             <Picker
               selectedValue={category}
               style={formStyles.picker}

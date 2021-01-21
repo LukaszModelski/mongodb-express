@@ -2,7 +2,6 @@ import {
   SET_EXPENSES,
   SET_EXPENSES_CATEGORIES,
   ADD_EXPENSE,
-  SET_LOADER_STATE,
   SET_NOTIFICATION_SUCCESS,
   SET_NOTIFICATION_FAIL,
   SET_NOTIFICATION_AMOUNT_REQUIRED
@@ -38,11 +37,6 @@ export function reducers(state = initialState, action) {
       return {
         ...state,
         expensesCategories: action.expensesCategories
-      }
-    case SET_LOADER_STATE:
-      return {
-        ...state,
-        loaderActive: action.state
       }
     case SET_NOTIFICATION_SUCCESS:
       return {

@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Button, ScrollView  } from 'react-native';
+import { View, Text, Button, ScrollView, ActivityIndicator  } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { setExpenses, setExpensesCategories } from "../../store/actions";
-import { viewStyles } from "../view/view.styles";
+import { viewStyles } from "../../styles/view.styles";
+import { utilStyles } from "../../styles/utils.styles";
+import { colors } from "../../vars/colors";
 import { listStyles } from "./ExpensesList.styles";
-import { fetchExpenses } from "../../utils/api";
+import { fetchExpenses } from "../../js/api";
 
 export const ExpensesList = ({navigation}) => {
   const dispatch = useDispatch();
   const expenses = useSelector(state => state.expenses);
   const [sum, setSum] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     const initExpenses = async () => {
       try {
         const response = await fetchExpenses();
@@ -20,6 +24,8 @@ export const ExpensesList = ({navigation}) => {
         setSum(calculateSum(response.data.expenses));
       } catch (error) {
         console.error(error);
+      } finally {
+        setIsLoading(false);
       }
     }
     initExpenses();
@@ -54,7 +60,14 @@ export const ExpensesList = ({navigation}) => {
     <View style={viewStyles.container}>
       <ScrollView>
       {renderExpenseList(expenses)}
-      {sum ? <Text style={listStyles.sum}>Sum: {sum} zł</Text> : <Text></Text>}
+      {sum ? <Text style={listStyles.sum}>Sum: {sum} zł</Text> : <></>}
+      { isLoading 
+        ? <ActivityIndicator
+          size="large"
+          color={colors.blue}
+          style={utilStyles.marginBottom20}
+        />
+        : <></>}
       <Button
         title="New expense"
         onPress={() => navigation.navigate('AddExpenseForm')}

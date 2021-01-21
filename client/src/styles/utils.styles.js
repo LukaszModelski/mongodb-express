@@ -12,5 +12,11 @@ export const utilStyles = StyleSheet.create({
   },
   paddingRight10: {
     paddingRight: 10
+  },
+  marginTop20: {
+    marginTop: 20
+  },
+  marginBottom20: {
+    marginBottom: 20
   }
 });

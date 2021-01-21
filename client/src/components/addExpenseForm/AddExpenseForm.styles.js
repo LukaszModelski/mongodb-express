@@ -30,8 +30,5 @@ export const formStyles = StyleSheet.create({
   picker: {
     borderWidth: 0,
     paddingVertical: 8,
-  },
-  loader: {
-    marginTop: 20
   }
 });

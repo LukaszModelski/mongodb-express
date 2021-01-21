@@ -4,21 +4,20 @@ import { View, TextInput, Text, Button, Picker, ActivityIndicator } from 'react-
 import { useSelector, useDispatch } from 'react-redux';
 import {
   addExpense,
-  setLoaderState,
   setNotificationSuccess,
   setNotificationFail,
   setNotificationAmountRequired
 } from "../../store/actions";
-import { viewStyles } from "../view/view.styles";
-import { utilStyles } from "../view/utils.styles";
+import { viewStyles } from "../../styles/view.styles";
+import { utilStyles } from "../../styles/utils.styles";
 import { formStyles } from "./AddExpenseForm.styles";
-import { postNewExpense } from "../../utils/api";
+import { postNewExpense } from "../../js/api";
 import { colors } from "../../vars/colors";
 
 export const AddExpenseForm = () => {
   const dispatch = useDispatch();
   const expensesCategories = useSelector(state => state.expensesCategories);
-  const loaderActive = useSelector(state => state.loaderActive);
+  const [isLoading, setIsLoading] = useState(false);
   const [amount, setAmount] = useState('');
   const [category, setCategory] = useState(expensesCategories[0]);
   const [description, setDescription] = useState('');
@@ -46,16 +45,17 @@ export const AddExpenseForm = () => {
     clearNotificationa();
     if(parseInt(amount)) {
       dispatch(setLoaderState(true));
+      setIsLoading(true);
       try {
         const response = await postNewExpense(amount, cat, desc);
         dispatch(addExpense(response.data.expense));
-        dispatch(setLoaderState(false));
         dispatch(setNotificationSuccess(true));
         clearForm();
       } catch (error) {
         console.error(error);
-        dispatch(setLoaderState(false));
         dispatch(setNotificationFail(true));
+      } finally {
+        setIsLoading(false);
       }
     } else {
       dispatch(setNotificationAmountRequired(true));
@@ -101,12 +101,13 @@ export const AddExpenseForm = () => {
         onPress={() => handleAddExpenseBtn(amount, category, description)}
         />
       <Notifications />
-      <ActivityIndicator
-        animating={loaderActive}
-        size="large"
-        color={colors.blue}
-        style={formStyles.loader}
-      />
+      { isLoading 
+        ? <ActivityIndicator
+          size="large"
+          color={colors.blue}
+          style={utilStyles.marginTop20}
+        />
+        : <></>}
     </View>
   );
 }

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { ExpensesListItem } from './expensesListItem/ExpensesListItem';
 import { View, Text, Button, ScrollView, ActivityIndicator  } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { setExpenses, setExpensesCategories } from "../../store/actions";
@@ -37,24 +38,11 @@ export const ExpensesList = ({navigation}) => {
     }).amount;
   }
 
-  const renderExpenseItem = (listItem) => {
-    return <View style={listStyles.listItem} key={listItem._id}>
-      <View style={listStyles.descriptionContainer}>
-        <Text style={[listStyles.amount, listStyles.textBlue]}>{listItem.amount} zł</Text>
-        <Text style={[listStyles.description, listStyles.textBlue]}>
-          {listItem.category}
-          {listItem.description ? ` - ${listItem.description}` : ''}
-        </Text>
-      </View>
-      <Text style={[listStyles.data]}>12.12.2020</Text>
-    </View>
-  }
-
   const renderExpenseList = list => {
-   return <View  style={listStyles.list}>
-     {list.map(item => renderExpenseItem(item))}
-   </View>
-  }
+    return <View  style={listStyles.list}>
+      {list.map(item => <ExpensesListItem item={item}/>)}
+    </View>
+   }
   
   return (
     <View style={viewStyles.container}>

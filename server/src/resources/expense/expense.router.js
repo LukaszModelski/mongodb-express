@@ -18,10 +18,24 @@ router
         return res.status(201).send({expense}).end();
       } catch(err) {
         console.error(err);
-        return res.status(400).send({message: 'Probably wrong category value'}).end();
+        return res.status(400).send({message: 'Probably wrong category value.'}).end();
       }
     } else {
       return res.status(400).send({message: 'amount or category info missing in request.'}).end();
+    }
+  })
+  .delete(async (req, res) => {
+    const id = req.body.id;
+    if (id) {
+      try {
+        const removed = await Expense.findOneAndDelete({ _id: id })
+        return res.status(200).send({removed, message: 'Resource removed succesfully.'}).end();
+      } catch(err) {
+        console.error(err);
+        return res.status(400).send({message: 'Something went wrong.'}).end();
+      }
+    } else {
+      return res.status(400).send({message: 'Id param is missing.'}).end();
     }
   })
 

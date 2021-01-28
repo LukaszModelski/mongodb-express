@@ -44,7 +44,6 @@ export const AddExpenseForm = () => {
   const handleAddExpenseBtn = async (amount, cat, desc) => {
     clearNotificationa();
     if(parseInt(amount)) {
-      dispatch(setLoaderState(true));
       setIsLoading(true);
       try {
         const response = await postNewExpense(amount, cat, desc);

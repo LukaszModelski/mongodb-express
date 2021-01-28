@@ -20,6 +20,9 @@ You can see logs locally with `heroku logs --tail` command.
 * https://nodejs-expenses.herokuapp.com/api/expense - to get list of expesnses
 #### Deploy
 Docs: https://devcenter.heroku.com/articles/git  
-* There is separate repo inside dist/ folder to push your changes directly to Heroku. You need to set proper remoteEvery new build you need to commit changes and push. `git push heroku master`.
+* There is separate repo inside dist/ folder to push your changes directly to Heroku. You need to set proper remote. Every new build you need to commit changes and push.
+  * `git add *` or  `git add .`
+  * `git commit -m "new build"`
+  * `git push heroku master`
 * Configuration **Procfile** defines the command to start server in node.  
 * There must be at least empty package.json file to let Heroku know this is node.js app.

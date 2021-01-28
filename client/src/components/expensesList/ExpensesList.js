@@ -40,16 +40,16 @@ export const ExpensesList = ({navigation}) => {
 
   const renderExpenseList = list => {
     return <View  style={listStyles.list}>
-      {list.map(item => <ExpensesListItem item={item}/>)}
+      {list.map(item => <ExpensesListItem key={item._id} item={item}/>)}
     </View>
-   }
+  }
   
   return (
     <View style={viewStyles.container}>
       <ScrollView>
       {renderExpenseList(expenses)}
       {sum ? <Text style={listStyles.sum}>Sum: {sum} zł</Text> : <></>}
-      { isLoading 
+      {isLoading 
         ? <ActivityIndicator
           size="large"
           color={colors.blue}

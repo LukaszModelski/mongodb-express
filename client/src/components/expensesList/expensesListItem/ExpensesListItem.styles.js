@@ -28,7 +28,23 @@ export const listItemStyles = StyleSheet.create({
   },
   editPanel: {
     position: 'absolute',
-    right: 0,
-    top: 0
+    top: 0,
+    textAlign: 'right',
+    backgroundColor: '#fff',
+    width: 70,
+    backgroundColor: 'red',
+    borderRadius: 3,
+    paddingVertical: 2,
+    paddingHorizontal: 5,
+  },
+  editPanelOpen: {
+    right: 0
+  },
+  editPanelClose: {
+    right: -100
+  },
+  editPanelText: {
+    color: '#fff',
+    textAlign: 'center'
   }
 });

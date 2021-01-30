@@ -29,7 +29,11 @@ router
     if (id) {
       try {
         const removed = await Expense.findOneAndDelete({ _id: id })
-        return res.status(200).send({removed, message: 'Resource removed succesfully.'}).end();
+        if (removed) {
+          return res.status(200).send({removed, message: 'Resource removed succesfully.'}).end();
+        } else {
+          return res.status(404).send({message: 'Resource with provided id was not found.'}).end();
+        }
       } catch(err) {
         console.error(err);
         return res.status(400).send({message: 'Something went wrong.'}).end();

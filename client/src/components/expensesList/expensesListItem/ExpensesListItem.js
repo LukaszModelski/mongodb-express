@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
+import { useDispatch } from "react-redux";
+import { deleteExpense } from "../../../store/actions";
 import { View, Text, TouchableOpacity } from 'react-native';
 import { listItemStyles } from "./ExpensesListItem.styles";
+import { deleteExpenseApi } from "../../../js/api";
 
 export const ExpensesListItem = ({item}) => {
+  const dispatch = useDispatch();
   const [isPanelOpen, setIsPanelOpen] = useState(false);
 
   const toggleIsPanelOpen = () => {
     setIsPanelOpen(!isPanelOpen);
   }
 
-  const deleteItem = () => {
-    // TO DO create delete request to API
-    console.log('delete item');
+  const deleteButtonHandler = async () => {
+    const deletedExpense = await deleteExpenseApi(item._id);
+    dispatch(deleteExpense(deletedExpense.data.removed));
   }
 
   return (
@@ -28,7 +32,7 @@ export const ExpensesListItem = ({item}) => {
       {/* TO DO unhardcode data */}
       <Text style={[listItemStyles.data]}>12.12.2020</Text>
       <View style={[listItemStyles.editPanel, isPanelOpen ? listItemStyles.editPanelOpen : listItemStyles.editPanelClose]}>
-        <TouchableOpacity onPress={deleteItem}>
+        <TouchableOpacity onPress={deleteButtonHandler}>
           <Text style={listItemStyles.editPanelText}>DELETE</Text>
         </TouchableOpacity>
       </View>

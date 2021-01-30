@@ -2,6 +2,7 @@ import {
   SET_EXPENSES,
   SET_EXPENSES_CATEGORIES,
   ADD_EXPENSE,
+  DELETE_EXPENSE,
   SET_NOTIFICATION_SUCCESS,
   SET_NOTIFICATION_FAIL,
   SET_NOTIFICATION_AMOUNT_REQUIRED
@@ -32,6 +33,11 @@ export function reducers(state = initialState, action) {
           ...state.expenses,
           action.expense
         ]
+      }
+    case DELETE_EXPENSE:
+      return {
+        ...state,
+        expenses: state.expenses.filter(expense => expense._id !== action.expense._id)
       }
     case SET_EXPENSES_CATEGORIES:
       return {

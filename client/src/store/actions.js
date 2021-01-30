@@ -1,6 +1,7 @@
 // action types 
 export const SET_EXPENSES = 'SET_EXPENSES';
 export const ADD_EXPENSE = 'ADD_EXPENSE';
+export const DELETE_EXPENSE = 'DELETE_EXPENSE';
 export const SET_EXPENSES_CATEGORIES = 'SET_EXPENSES_CATEGORIES';
 export const SET_NOTIFICATION_SUCCESS = 'SET_NOTIFICATION_SUCCESS';
 export const SET_NOTIFICATION_FAIL = 'SET_NOTIFICATION_FAIL';
@@ -13,6 +14,10 @@ export function setExpenses(expenses) {
 
 export function addExpense(expense) {
   return { type: ADD_EXPENSE, expense }
+}
+
+export function deleteExpense(expense) {
+  return { type: DELETE_EXPENSE, expense }
 }
 
 export function setExpensesCategories(expensesCategories) {

@@ -6,8 +6,14 @@ export const fetchExpenses = () => {
 
 export const postNewExpense = (amount, category, description) => {
   return axios.post('https://nodejs-expenses.herokuapp.com/api/expense', {
-    amount: amount,
-    category: category,
-    description: description
+    amount,
+    category,
+    description
   });
+}
+
+export const deleteExpenseApi = (id) => {
+  return axios.delete('https://nodejs-expenses.herokuapp.com/api/expense', {
+    data: { id }
+   })
 }

@@ -10,7 +10,6 @@ export const ExpensesListItem = ({item}) => {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
 
   const toggleIsPanelOpen = () => {
-    console.log(typeof item.date);
     setIsPanelOpen(!isPanelOpen);
   }
 

@@ -6,9 +6,9 @@ Go to `client/` directory.
 * `npm run web` - to start local dev, and open it in web
 ## Server
 Go to `server/` directory.
-* **npm server** - runs server
-* **npm build-dev** - build development bundle in dist/index.js 
-* **npm build-prod** - build production bundle in dist/index.js
+* **npm run server** - runs server
+* **npm run build-dev** - build development bundle in dist/index.js 
+* **npm run build-prod** - build production bundle in dist/index.js
 ### MongoDB
 * Using mongoose to connect to MongoDB.
 * Allowed all IPs to have access to DB for now.

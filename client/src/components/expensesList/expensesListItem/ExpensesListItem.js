@@ -10,12 +10,21 @@ export const ExpensesListItem = ({item}) => {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
 
   const toggleIsPanelOpen = () => {
+    console.log(typeof item.date);
     setIsPanelOpen(!isPanelOpen);
   }
 
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString();
+  }
+
   const deleteButtonHandler = async () => {
-    const deletedExpense = await deleteExpenseApi(item._id);
-    dispatch(deleteExpense(deletedExpense.data.removed));
+    try {
+      const deletedExpense = await deleteExpenseApi(item._id);
+      dispatch(deleteExpense(deletedExpense.data.removed));
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
@@ -29,8 +38,7 @@ export const ExpensesListItem = ({item}) => {
           </Text>
         </View>
       </TouchableOpacity>
-      {/* TO DO unhardcode data */}
-      <Text style={[listItemStyles.data]}>12.12.2020</Text>
+      <Text style={[listItemStyles.data]}>{formatDate(item.date)}</Text>
       <View style={[listItemStyles.editPanel, isPanelOpen ? listItemStyles.editPanelOpen : listItemStyles.editPanelClose]}>
         <TouchableOpacity onPress={deleteButtonHandler}>
           <Text style={listItemStyles.editPanelText}>DELETE</Text>

@@ -1,6 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Notifications } from "../notifications/Notifications";
-import { View, TextInput, Text, Button, Picker, ActivityIndicator } from 'react-native';
+import {
+  View,
+  TextInput,
+  Text,
+  Button,
+  Picker,
+  ActivityIndicator,
+  TouchableOpacity,
+  Platform
+} from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { Fontisto } from '@expo/vector-icons';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   addExpense,
@@ -21,6 +32,8 @@ export const AddExpenseForm = () => {
   const [amount, setAmount] = useState('');
   const [category, setCategory] = useState(expensesCategories[0]);
   const [description, setDescription] = useState('');
+  const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
+  const [date, setDate] = useState(new Date());
 
   useEffect(() => {
     setCategory(expensesCategories[0]);
@@ -41,12 +54,22 @@ export const AddExpenseForm = () => {
     setDescription('');
   }
 
-  const handleAddExpenseBtn = async (amount, cat, desc) => {
+  const showDatePicker = () => {
+    setIsDatePickerVisible(true);
+  }
+
+  const handleDateChange = (event, selectedDate) => {
+    const newDate = selectedDate || date;
+    setIsDatePickerVisible(Platform.OS === 'ios');
+    setDate(newDate);
+  }
+
+  const handleAddExpenseBtn = async (amount, cat, desc, dateString) => {
     clearNotificationa();
     if(parseInt(amount)) {
       setIsLoading(true);
       try {
-        const response = await postNewExpense(amount, cat, desc);
+        const response = await postNewExpense(amount, cat, desc, dateString);
         dispatch(addExpense(response.data.expense));
         dispatch(setNotificationSuccess(true));
         clearForm();
@@ -94,11 +117,27 @@ export const AddExpenseForm = () => {
             style={formStyles.input}
           />
         </View>
+        <View style={formStyles.datePicker}>
+          <TouchableOpacity onPress={showDatePicker}>
+            <Fontisto style={formStyles.callendarIcon} name="date" size={20} color={colors.blue} />
+          </TouchableOpacity>
+          <Text>{date.toLocaleDateString()}</Text>
+        </View>
       </View>
+      {isDatePickerVisible
+        ? <DateTimePicker
+          testID="dateTimePicker"
+          value={date}
+          mode='date'
+          is24Hour={true}
+          display="default"
+          onChange={handleDateChange}
+        />
+        : <></>}
       <Button
         title="Add expense"
-        onPress={() => handleAddExpenseBtn(amount, category, description)}
-        />
+        onPress={() => handleAddExpenseBtn(amount, category, description, date.toJSON())}
+      />
       <Notifications />
       { isLoading 
         ? <ActivityIndicator

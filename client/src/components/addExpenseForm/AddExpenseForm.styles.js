@@ -20,7 +20,7 @@ export const formStyles = StyleSheet.create({
   input: {
     borderWidth: 1,
     borderColor: colors.gray,
-    paddingVertical: 10,
+    paddingVertical: 11,
     paddingHorizontal: 5
   },
   pickerWrapper: {
@@ -29,6 +29,13 @@ export const formStyles = StyleSheet.create({
   },
   picker: {
     borderWidth: 0,
-    paddingVertical: 8,
+    paddingVertical: 9,
+  },
+  datePicker: {
+    flexDirection: 'row',
+    marginTop: 10
+  },
+  callendarIcon: {
+    marginRight: 10
   }
 });

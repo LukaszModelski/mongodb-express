@@ -12,9 +12,10 @@ router
   .post(async (req, res) => {
     const amount = req.body.amount;
     const category = req.body.category;
+    const dateString = req.body.dateString;
     if (amount && category) {
       try {
-        const expense = await Expense.create({...req.body, date: new Date()});
+        const expense = await Expense.create({...req.body, date: new Date(dateString)});
         return res.status(201).send({expense}).end();
       } catch(err) {
         console.error(err);

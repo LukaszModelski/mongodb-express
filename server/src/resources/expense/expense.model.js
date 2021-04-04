@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
-const expenseCategories = ['sport', 'cloths', 'sport gear', 'bills', 'softwear', 'food', 'other'];
+const expenseCategories = ['sport', 'cloths', 'sport gear', 'bills', 'software', 'food', 'other'];
 
-const expense = new mongoose.Schema({
+const expenseSchema = new mongoose.Schema({
   amount: {
     type: Number,
     required: true,
@@ -23,4 +23,4 @@ const expense = new mongoose.Schema({
 });
 
 export const categories = expenseCategories;
-export const Expense = mongoose.model('expense', expense);
+export const Expense = mongoose.model('expense', expenseSchema);

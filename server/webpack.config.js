@@ -1,4 +1,7 @@
+const NodemonPlugin = require('nodemon-webpack-plugin');
+
 module.exports = {
+  watch: true,
   output: {
     filename: 'index.js'
   },
@@ -17,5 +20,8 @@ module.exports = {
       }
     ]
   },
+  plugins: [
+    new NodemonPlugin()
+  ],
   target: 'node'
 }

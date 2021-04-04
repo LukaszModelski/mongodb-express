@@ -11,7 +11,6 @@ import {
 const initialState = {
   expenses: [],
   expensesCategories: [],
-  loaderActive: false,
   showNotification: {
     success: false,
     fail: false,

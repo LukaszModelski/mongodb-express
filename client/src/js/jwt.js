@@ -3,11 +3,11 @@ import { isNative } from "./utils";
 
 export const getJWTfromStorage = () => isNative() ? getJWTFromNative() : getJWTFromWebCookies();
 
-export const saveJWTinStorage = () => {
+export const saveJWTinStorage = (jwt) => {
   if (isNative()) {
-    saveJWYinNativeStorage();
+    saveJWYinNativeStorage(jwt);
   } else {
-    saveJWTinWebCookies();
+    saveJWTinWebCookies(jwt);
   }
 }
 
@@ -21,9 +21,8 @@ const getJWTFromNative = () => {
   console.log('Get JWT from native storage');
 }
 
-const saveJWTinWebCookies = () => {
-  // TO DO - save token in web cookies
-  console.log('Save JWT to web cookies');
+const saveJWTinWebCookies = (jwt) => {
+  document.cookie=`jwt=${jwt}`
 }
 
 const saveJWYinNativeStorage = () => {

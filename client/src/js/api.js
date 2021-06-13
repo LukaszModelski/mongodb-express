@@ -10,6 +10,10 @@ export const handleAPIerror = (error, navigation) => {
   }
 }
 
+export const loginUser = (email, password) => {
+  return axios.post(`${domain}api/user/login`, { email, password });
+}
+
 export const fetchExpenses = () => {
   return axios.get(`${domain}api/expense`, {
     params: { jwt: getJWTfromStorage() }
@@ -25,7 +29,7 @@ export const postNewExpense = (amount, category, description, dateString) => {
       dateString
     },
     { 
-      params: { jwt: JWT }
+      params: { jwt: getJWTfromStorage() }
     }
   );
 }

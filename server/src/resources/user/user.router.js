@@ -47,9 +47,12 @@ router
     const email = req.body.email;
     const password = req.body.password;
     if(email && password) {
+      let passwordMatch = false;
       try {
         const user = await User.findOne({email: email});
-        const passwordMatch = await bcryptjs.compare(password, user.password);
+        if(user) {
+          passwordMatch = await bcryptjs.compare(password, user.password);
+        }
         if(user && passwordMatch) {
           const unsignedToken = {
             user: {

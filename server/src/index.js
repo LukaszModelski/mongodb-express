@@ -6,6 +6,7 @@ import { connectDB } from './utils/connectDB';
 import cors from 'cors';
 import expenseRouter from "./resources/expense/expense.router";
 import userRouter from './resources/user/user.router';
+import { verifyJWT } from "./middleware/verifyJWT";
 
 const app = express();
 
@@ -20,7 +21,7 @@ app.get('/api', (req, res) => {
   res.send({message: 'Api response'}).end();
 })
 
-app.use('/api/expense', expenseRouter);
+app.use('/api/expense', verifyJWT, expenseRouter);
 app.use('/api/user', userRouter);
 
 const startServer = async () => {

@@ -7,7 +7,7 @@ import { viewStyles } from "../../styles/view.styles";
 import { utilStyles } from "../../styles/utils.styles";
 import { colors } from "../../vars/colors";
 import { listStyles } from "./ExpensesList.styles";
-import { fetchExpenses } from "../../js/api";
+import { fetchExpenses, handleAPIerror } from "../../js/api";
 
 export const ExpensesList = ({navigation}) => {
   const dispatch = useDispatch();
@@ -24,7 +24,7 @@ export const ExpensesList = ({navigation}) => {
         dispatch(setExpensesCategories(response.data.categories));
         setSum(calculateSum(response.data.expenses));
       } catch (error) {
-        console.error(error);
+        handleAPIerror(error, navigation);
       } finally {
         setIsLoading(false);
       }

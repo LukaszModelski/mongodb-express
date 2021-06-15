@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { View, Text, Button, ScrollView, ActivityIndicator  } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { ExpensesListItem } from './expensesListItem/ExpensesListItem';
@@ -16,7 +16,8 @@ export const ExpensesList = ({navigation}) => {
   const [sum, setSum] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
-  useFocusEffect(() => {
+  useFocusEffect(
+    useCallback(() => {
       setIsLoading(true);
       const initExpenses = async () => {
         try {
@@ -31,7 +32,8 @@ export const ExpensesList = ({navigation}) => {
         }
       }
       initExpenses();
-  }, []);
+    }, [])
+  );
 
   const calculateSum = (expensesArray) => {
     return expensesArray.reduce((prev, curr) => {

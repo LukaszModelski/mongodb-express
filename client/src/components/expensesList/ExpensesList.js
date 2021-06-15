@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { ExpensesListItem } from './expensesListItem/ExpensesListItem';
+import React, { useState } from 'react';
 import { View, Text, Button, ScrollView, ActivityIndicator  } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
+import { ExpensesListItem } from './expensesListItem/ExpensesListItem';
 import { useSelector, useDispatch } from 'react-redux';
 import { setExpenses, setExpensesCategories } from "../../store/actions";
 import { viewStyles } from "../../styles/view.styles";
@@ -15,21 +16,21 @@ export const ExpensesList = ({navigation}) => {
   const [sum, setSum] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    setIsLoading(true);
-    const initExpenses = async () => {
-      try {
-        const response = await fetchExpenses();
-        dispatch(setExpenses(response.data.expenses));
-        dispatch(setExpensesCategories(response.data.categories));
-        setSum(calculateSum(response.data.expenses));
-      } catch (error) {
-        handleAPIerror(error, navigation);
-      } finally {
-        setIsLoading(false);
+  useFocusEffect(() => {
+      setIsLoading(true);
+      const initExpenses = async () => {
+        try {
+          const response = await fetchExpenses();
+          dispatch(setExpenses(response.data.expenses));
+          dispatch(setExpensesCategories(response.data.categories));
+          setSum(calculateSum(response.data.expenses));
+        } catch (error) {
+          handleAPIerror(error, navigation);
+        } finally {
+          setIsLoading(false);
+        }
       }
-    }
-    initExpenses();
+      initExpenses();
   }, []);
 
   const calculateSum = (expensesArray) => {

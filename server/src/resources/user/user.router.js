@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import bcryptjs from 'bcryptjs';
+import jwt from "jsonwebtoken";
 import { User } from './user.model';
 
 import { validateEmail } from "../../utils/validateEmail";
@@ -46,10 +47,20 @@ router
     const email = req.body.email;
     const password = req.body.password;
     if(email && password) {
+      let passwordMatch = false;
       try {
         const user = await User.findOne({email: email});
-        const passwordMatch = await bcryptjs.compare(password, user.password);
+        if(user) {
+          passwordMatch = await bcryptjs.compare(password, user.password);
+        }
         if(user && passwordMatch) {
+          const unsignedToken = {
+            user: {
+              _id: user._id,
+              email: user.email
+            }
+          }
+          const signedToken = jwt.sign(unsignedToken, process.env.JWT_SECRET, { expiresIn: "1h" });
           return res
             .status(200)
             .send({
@@ -57,7 +68,7 @@ router
                 _id: user._id,
                 email: user.email
               },
-              token: 'TO DO',
+              token: signedToken,
               message: 'Login succesfull.'
             })
             .end();

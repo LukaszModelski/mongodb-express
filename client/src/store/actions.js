@@ -1,13 +1,20 @@
 // action types 
+// expenses
 export const SET_EXPENSES = 'SET_EXPENSES';
 export const ADD_EXPENSE = 'ADD_EXPENSE';
 export const DELETE_EXPENSE = 'DELETE_EXPENSE';
 export const SET_EXPENSES_CATEGORIES = 'SET_EXPENSES_CATEGORIES';
+// notifications
+export const CLEAR_NOTIFICATIONS = 'CLEAR_NOTIFICATIONS';
 export const SET_NOTIFICATION_SUCCESS = 'SET_NOTIFICATION_SUCCESS';
 export const SET_NOTIFICATION_FAIL = 'SET_NOTIFICATION_FAIL';
+export const SET_NOTIFICATION_LOGIN_SUCCESS = 'SET_NOTIFICATION_LOGIN_SUCCESS';
+export const SET_NOTIFICATION_LOGIN_FAIL = 'SET_NOTIFICATION_LOGIN_FAIL';
 export const SET_NOTIFICATION_AMOUNT_REQUIRED = 'SET_NOTIFICATION_AMOUNT_REQUIRED';
+export const SET_NOTIFICATION_EMAIL_AND_PASS_REQUIRED = 'SET_NOTIFICATION_EMAIL_AND_PASS_REQUIRED';
 
 // action creators
+// expenses
 export function setExpenses(expenses) {
   return { type: SET_EXPENSES, expenses }
 }
@@ -24,6 +31,11 @@ export function setExpensesCategories(expensesCategories) {
   return { type: SET_EXPENSES_CATEGORIES, expensesCategories }
 }
 
+// notifications
+export function clearNotifications() {
+  return { type: CLEAR_NOTIFICATIONS }
+}
+
 export function setNotificationSuccess(state) {
   return { type: SET_NOTIFICATION_SUCCESS, state }
 }
@@ -32,6 +44,18 @@ export function setNotificationFail(state) {
   return { type: SET_NOTIFICATION_FAIL, state }
 }
 
+export function setNotificationLoginSuccess(state) {
+  return { type: SET_NOTIFICATION_LOGIN_SUCCESS, state }
+}
+
+export function setNotificationLoginFail(state) {
+  return { type: SET_NOTIFICATION_LOGIN_FAIL, state }
+}
+
 export function setNotificationAmountRequired(state) {
   return { type: SET_NOTIFICATION_AMOUNT_REQUIRED, state }
+}
+
+export function setNotificationEmailAndPassRequired(state) {
+  return { type: SET_NOTIFICATION_EMAIL_AND_PASS_REQUIRED, state }
 }

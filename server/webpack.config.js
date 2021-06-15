@@ -21,7 +21,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new NodemonPlugin()
+    new NodemonPlugin({nodeArgs: ['--inspect']})
   ],
   target: 'node'
 }

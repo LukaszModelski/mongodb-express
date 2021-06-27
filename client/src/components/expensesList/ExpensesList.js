@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import { View, Text, Button, ScrollView, ActivityIndicator  } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { ExpensesListItem } from './expensesListItem/ExpensesListItem';
@@ -16,24 +16,24 @@ export const ExpensesList = ({navigation}) => {
   const [sum, setSum] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
-  useFocusEffect(
-    useCallback(() => {
-      setIsLoading(true);
-      const initExpenses = async () => {
-        try {
-          const response = await fetchExpenses();
-          dispatch(setExpenses(response.data.expenses));
-          dispatch(setExpensesCategories(response.data.categories));
-          setSum(calculateSum(response.data.expenses));
-        } catch (error) {
-          handleAPIerror(error, navigation);
-        } finally {
-          setIsLoading(false);
+  useFocusEffect(() => {
+      if(expenses.length === 0) {
+        setIsLoading(true);
+        const initExpenses = async () => {
+          try {
+            const response = await fetchExpenses();
+            dispatch(setExpenses(response.data.expenses));
+            dispatch(setExpensesCategories(response.data.categories));
+            setSum(calculateSum(response.data.expenses));
+          } catch (error) {
+            handleAPIerror(error, navigation);
+          } finally {
+            setIsLoading(false);
+          }
         }
+        initExpenses();
       }
-      initExpenses();
-    }, [])
-  );
+  }, []);
 
   const calculateSum = (expensesArray) => {
     return expensesArray.reduce((prev, curr) => {

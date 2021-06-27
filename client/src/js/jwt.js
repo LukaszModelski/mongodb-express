@@ -1,13 +1,22 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import cookie from 'cookie';
 import { isNative } from "./utils";
 
-export const getJWTfromStorage = () => isNative() ? getJWTFromNative() : getJWTFromWebCookies();
-
-export const saveJWTinStorage = (jwt) => {
+export const getJWT = async () => {
   if (isNative()) {
-    saveJWYinNativeStorage(jwt);
+    return await getJWTFromNative();
   } else {
-    saveJWTinWebCookies(jwt);
+    return getJWTFromWebCookies();
+  }
+}
+
+const getJWTFromNative = async () => {
+  try {
+    const jwt = await AsyncStorage.getItem('@jwt');
+    return jwt;
+  } catch (error) {
+    console.error(error);
+    return false;
   }
 }
 
@@ -16,16 +25,22 @@ const getJWTFromWebCookies = () => {
   return parsedCookies.jwt ? parsedCookies.jwt : '';
 }
 
-const getJWTFromNative = () => {
-  // TO DO - get token from native storage
-  console.log('Get JWT from native storage');
+export const saveJWT = async (jwt) => {
+  if (isNative()) {
+    await saveJWTinNativeStorage(jwt);
+  } else {
+    saveJWTinWebCookies(jwt);
+  }
+}
+
+const saveJWTinNativeStorage = async (jwt) => {
+  try {
+    await AsyncStorage.setItem('@jwt', jwt)
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 const saveJWTinWebCookies = (jwt) => {
   document.cookie=`jwt=${jwt}`
-}
-
-const saveJWYinNativeStorage = () => {
-  // TO DO - save token to native storage
-  console.log('Save JWT to native storage');
 }

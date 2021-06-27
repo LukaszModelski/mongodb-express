@@ -1,5 +1,8 @@
 import axios from 'axios';
-import { getJWTfromStorage } from "./jwt";
+import { getJWT } from "./jwt";
+
+// const domain = 'https://nodejs-expenses.herokuapp.com/';
+const domain = 'http://localhost:3000/';
 
 export const handleAPIerror = (error, navigation) => {
   if (error.response && error.response.status === 401) {
@@ -14,9 +17,10 @@ export const loginUser = (email, password) => {
   return axios.post(`${domain}api/user/login`, { email, password });
 }
 
-export const fetchExpenses = () => {
+export const fetchExpenses = async () => {
+  const jwt = await getJWT();
   return axios.get(`${domain}api/expense`, {
-    params: { jwt: getJWTfromStorage() }
+    params: { jwt: jwt }
   });
 }
 
@@ -29,7 +33,7 @@ export const postNewExpense = (amount, category, description, dateString) => {
       dateString
     },
     { 
-      params: { jwt: getJWTfromStorage() }
+      params: { jwt: getJWT() }
     }
   );
 }

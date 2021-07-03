@@ -16,16 +16,18 @@ export const ExpensesList = ({navigation}) => {
   const expenses = useSelector(state => state.expenses);
   const sum = useSelector(state => state.sum);
   const [isLoading, setIsLoading] = useState(false);
+  const [fetched, setFetched] = useState(false);
 
   useFocusEffect(
     useCallback(() => {
-      if(expenses.length === 0) {
+      if(!fetched) {
         setIsLoading(true);
         const initExpenses = async () => {
           try {
             const response = await fetchExpenses();
             dispatch(setExpenses(response.data.expenses));
             dispatch(setExpensesCategories(response.data.categories));
+            setFetched(true);
           } catch (error) {
             handleAPIerror(error, navigation);
           } finally {
@@ -34,7 +36,7 @@ export const ExpensesList = ({navigation}) => {
         }
         initExpenses();
       }
-    }, [])
+    }, [fetched])
   );
 
   useEffect(() => {

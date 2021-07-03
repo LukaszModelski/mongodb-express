@@ -4,6 +4,7 @@ export const SET_EXPENSES = 'SET_EXPENSES';
 export const ADD_EXPENSE = 'ADD_EXPENSE';
 export const DELETE_EXPENSE = 'DELETE_EXPENSE';
 export const SET_EXPENSES_CATEGORIES = 'SET_EXPENSES_CATEGORIES';
+export const SET_SUM = 'SET_SUM';
 // notifications
 export const CLEAR_NOTIFICATIONS = 'CLEAR_NOTIFICATIONS';
 export const SET_NOTIFICATION_SUCCESS = 'SET_NOTIFICATION_SUCCESS';
@@ -29,6 +30,10 @@ export function deleteExpense(expense) {
 
 export function setExpensesCategories(expensesCategories) {
   return { type: SET_EXPENSES_CATEGORIES, expensesCategories }
+}
+
+export function setSum(sum) {
+  return { type: SET_SUM, sum }
 }
 
 // notifications

@@ -1,8 +1,7 @@
 import axios from 'axios';
 import { getJWT } from "./jwt";
 
-// const domain = 'https://nodejs-expenses.herokuapp.com/';
-const domain = 'http://localhost:3000/';
+const domain = 'https://nodejs-expenses.herokuapp.com/';
 
 export const handleAPIerror = (error, navigation) => {
   if (error.response && error.response.status === 401) {
@@ -24,7 +23,7 @@ export const fetchExpenses = async () => {
   });
 }
 
-export const postNewExpense = (amount, category, description, dateString) => {
+export const postNewExpense = async (amount, category, description, dateString) => {
   return axios.post(`${domain}api/expense`,
     {
       amount,
@@ -33,16 +32,16 @@ export const postNewExpense = (amount, category, description, dateString) => {
       dateString
     },
     { 
-      params: { jwt: getJWT() }
+      params: { jwt: await getJWT() }
     }
   );
 }
 
-export const deleteExpenseApi = (id) => {
+export const deleteExpenseApi = async (id) => {
   return axios.delete(`${domain}api/expense`,
     {
       data: { id },
-      params: { jwt: JWT }
+      params: { jwt: await getJWT() }
     }
   );
 }

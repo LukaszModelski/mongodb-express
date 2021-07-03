@@ -1,8 +1,9 @@
 import {
   SET_EXPENSES,
-  SET_EXPENSES_CATEGORIES,
   ADD_EXPENSE,
   DELETE_EXPENSE,
+  SET_EXPENSES_CATEGORIES,
+  SET_SUM,
   CLEAR_NOTIFICATIONS,
   SET_NOTIFICATION_SUCCESS,
   SET_NOTIFICATION_FAIL,
@@ -15,7 +16,8 @@ import {
 const initialState = {
   expenses: [],
   expensesCategories: [],
-  showNotification: {}
+  showNotification: {},
+  sum: false
 }
 
 export function reducers(state = initialState, action) {
@@ -43,6 +45,11 @@ export function reducers(state = initialState, action) {
       return {
         ...state,
         expensesCategories: action.expensesCategories
+      }
+    case SET_SUM:
+      return {
+        ...state,
+        sum: action.sum
       }
     // notifications
     case CLEAR_NOTIFICATIONS:

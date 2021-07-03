@@ -9,7 +9,7 @@ import {
   clearNotifications,
 } from "../../store/actions";
 import { Notifications } from "../notifications/Notifications";
-import { saveJWTinStorage } from "../../js/jwt";
+import { saveJWT } from "../../js/jwt";
 import { loginUser } from "../../js/api";
 
 export const LoginScreen = ({navigation}) => {
@@ -23,7 +23,7 @@ export const LoginScreen = ({navigation}) => {
       try {
         const res = await loginUser(email, password);
         dispatch(setNotificationLoginSuccess(true));
-        saveJWTinStorage(res.data.token);
+        await saveJWT(res.data.token);
         navigation.navigate('ExpensesList')
       } catch(error) {
         console.error(error);

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, Button, ScrollView, ActivityIndicator  } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
-import { ExpensesListItem } from './expensesListItem/ExpensesListItem';
+import { ExpensesAccrodion } from './expensesAccordion/ExpensesAccordion';
 import { useSelector, useDispatch } from 'react-redux';
 import { setExpenses, setExpensesCategories, setSum } from "../../store/actions";
 import { viewStyles } from "../../styles/view.styles";
@@ -9,7 +9,7 @@ import { utilStyles } from "../../styles/utils.styles";
 import { colors } from "../../vars/colors";
 import { listStyles } from "./ExpensesList.styles";
 import { fetchExpenses, handleAPIerror } from "../../js/api";
-import { calculateSum } from "../../js/utils";
+import { calculateSum, groupExpensesByMounth } from "../../js/utils";
 
 export const ExpensesList = ({navigation}) => {
   const dispatch = useDispatch();
@@ -25,7 +25,8 @@ export const ExpensesList = ({navigation}) => {
         const initExpenses = async () => {
           try {
             const response = await fetchExpenses();
-            dispatch(setExpenses(response.data.expenses));
+            const sortedExpenses = groupExpensesByMounth(response.data.expenses);
+            dispatch(setExpenses(sortedExpenses));
             dispatch(setExpensesCategories(response.data.categories));
             setFetched(true);
           } catch (error) {
@@ -41,31 +42,31 @@ export const ExpensesList = ({navigation}) => {
 
   useEffect(() => {
     if(expenses.length !== 0) {
-      dispatch(setSum(calculateSum(expenses)));
+      // TO DO: consider moving inside accordions
+      // dispatch(setSum(calculateSum(expenses)));
     }
   }, [expenses]);
 
-  const renderExpenseList = list => {
-    return <View  style={listStyles.list}>
-      {list.map(item => <ExpensesListItem key={item._id} item={item}/>)}
-    </View>
-  }
+  const renderExpenseAccordions = expenses => Object.entries(expenses)
+    .sort((acc1, acc2) => acc1[0] > acc2[0] ? -1 : 1)
+    .map(entry => <ExpensesAccrodion date={entry[0]} items={entry[1]} key={entry[0]}/>)
   
+
   return (
     <View style={viewStyles.container}>
       <ScrollView>
-      {renderExpenseList(expenses)}
-      {sum ? <Text style={listStyles.sum}>Sum: {sum} zł</Text> : <></>}
-      {isLoading 
-        ? <ActivityIndicator
-          size="large"
-          color={colors.blue}
-          style={utilStyles.marginBottom20}
-        />
-        : <></>}
-      <Button
-        title="New expense"
-        onPress={() => navigation.navigate('AddExpenseForm')}
+        {Object.keys(expenses).length ? renderExpenseAccordions(expenses) : <></>}
+        {sum ? <Text style={listStyles.sum}>Sum: {sum} zł</Text> : <></>}
+        {isLoading 
+          ? <ActivityIndicator
+            size="large"
+            color={colors.blue}
+            style={utilStyles.marginBottom20}
+          />
+          : <></>}
+        <Button
+          title="New expense"
+          onPress={() => navigation.navigate('AddExpenseForm')}
         />
       </ScrollView>
     </View>

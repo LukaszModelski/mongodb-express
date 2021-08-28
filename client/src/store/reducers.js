@@ -13,8 +13,10 @@ import {
   SET_NOTIFICATION_EMAIL_AND_PASS_REQUIRED
 } from "./actions";
 
+import { appendExpense } from "../js/utils";
+
 const initialState = {
-  expenses: [],
+  expenses: {},
   expensesCategories: [],
   showNotification: {},
   sum: false
@@ -29,12 +31,11 @@ export function reducers(state = initialState, action) {
         expenses: action.expenses
       }
     case ADD_EXPENSE:
+      const expensesObj = {...state.expenses};
+      appendExpense(expensesObj, action.expense);
       return {
         ...state,
-        expenses: [
-          ...state.expenses,
-          action.expense
-        ]
+        expenses: expensesObj,
       }
     case DELETE_EXPENSE:
       return {

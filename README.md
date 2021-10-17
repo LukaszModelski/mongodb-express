@@ -21,6 +21,7 @@ You can see logs locally with `heroku logs --tail` command.
 #### Deploy
 Docs: https://devcenter.heroku.com/articles/git  
 * There is separate repo inside dist/ folder to push your changes directly to Heroku. You need to set proper remote. Every new build you need to commit changes and push.
+  * build new dist verision first!  
   * `git add *` or  `git add .`
   * `git commit -m "new build"`
   * `git push heroku master`

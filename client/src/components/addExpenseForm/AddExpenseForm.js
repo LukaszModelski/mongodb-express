@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { Notifications } from "../notifications/Notifications";
 import {
   View,
@@ -17,7 +18,8 @@ import {
   addExpense,
   setNotificationSuccess,
   setNotificationFail,
-  setNotificationAmountRequired
+  setNotificationAmountRequired,
+  clearNotifications
 } from "../../store/actions";
 import { viewStyles } from "../../styles/view.styles";
 import { utilStyles } from "../../styles/utils.styles";
@@ -25,7 +27,7 @@ import { formStyles } from "./AddExpenseForm.styles";
 import { postNewExpense } from "../../js/api";
 import { colors } from "../../vars/colors";
 
-export const AddExpenseForm = () => {
+export const AddExpenseForm = ({navigation}) => {
   const dispatch = useDispatch();
   const expensesCategories = useSelector(state => state.expensesCategories);
   const [isLoading, setIsLoading] = useState(false);
@@ -35,6 +37,18 @@ export const AddExpenseForm = () => {
   const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
   const [date, setDate] = useState(new Date());
 
+  useFocusEffect(
+    useCallback(() => {
+      return () => dispatch(clearNotifications());
+    }, [])
+  );
+  
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('blur', () => console.log('BLURR form add expense'));
+
+    return unsubscribe;
+  }, [navigation]);
+
   useEffect(() => {
     setCategory(expensesCategories[0]);
   }, [expensesCategories]);
@@ -42,12 +56,6 @@ export const AddExpenseForm = () => {
   const renderPickerItem = (item) => <Picker.Item key={item} label={item} value={item} />
 
   const renderPickerList = (list) => list.map(item => renderPickerItem(item));
-
-  const clearNotificationa = () => {
-    dispatch(setNotificationSuccess(false));
-    dispatch(setNotificationFail(false));
-    dispatch(setNotificationAmountRequired(false));
-  }
 
   const clearForm = () => {
     setAmount('');
@@ -65,7 +73,7 @@ export const AddExpenseForm = () => {
   }
 
   const handleAddExpenseBtn = async (amount, cat, desc, dateString) => {
-    clearNotificationa();
+    dispatch(clearNotifications());
     if(parseInt(amount)) {
       setIsLoading(true);
       try {

@@ -9,10 +9,6 @@ export const ExpensesListItem = ({item}) => {
   const dispatch = useDispatch();
   const [isPanelOpen, setIsPanelOpen] = useState(false);
 
-  const toggleIsPanelOpen = () => {
-    setIsPanelOpen(!isPanelOpen);
-  }
-
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString();
   }
@@ -28,7 +24,7 @@ export const ExpensesListItem = ({item}) => {
 
   return (
     <View style={listItemStyles.listItem} key={item._id}>
-      <TouchableOpacity onPress={toggleIsPanelOpen}>
+      <TouchableOpacity onPress={() => { setIsPanelOpen(!isPanelOpen) }}>
         <View style={listItemStyles.descriptionContainer}>
           <Text style={[listItemStyles.amount, listItemStyles.textBlue]}>{item.amount} zł</Text>
           <Text style={[listItemStyles.description, listItemStyles.textBlue]}>

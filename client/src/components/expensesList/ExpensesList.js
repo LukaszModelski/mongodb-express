@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { View, Text, Button, ScrollView, ActivityIndicator  } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { ExpensesAccrodion } from './expensesAccordion/ExpensesAccordion';
 import { useSelector, useDispatch } from 'react-redux';
-import { setExpenses, setExpensesCategories, setSum } from "../../store/actions";
+import { setExpenses, setExpensesCategories, clearNotifications } from "../../store/actions";
 import { viewStyles } from "../../styles/view.styles";
 import { utilStyles } from "../../styles/utils.styles";
 import { colors } from "../../vars/colors";
 import { listStyles } from "./ExpensesList.styles";
 import { fetchExpenses, handleAPIerror } from "../../js/api";
-import { calculateSum, groupExpensesByMounth } from "../../js/utils";
+import { groupExpensesByMounth } from "../../js/utils";
 
 export const ExpensesList = ({navigation}) => {
   const dispatch = useDispatch();
@@ -17,6 +17,12 @@ export const ExpensesList = ({navigation}) => {
   const sum = useSelector(state => state.sum);
   const [isLoading, setIsLoading] = useState(false);
   const [fetched, setFetched] = useState(false);
+
+  useFocusEffect(
+    useCallback(() => {
+      return () => dispatch(clearNotifications());
+    }, [])
+  );
 
   useFocusEffect(
     useCallback(() => {
@@ -39,13 +45,6 @@ export const ExpensesList = ({navigation}) => {
       }
     }, [fetched])
   );
-
-  useEffect(() => {
-    if(expenses.length !== 0) {
-      // TO DO: consider moving inside accordions
-      // dispatch(setSum(calculateSum(expenses)));
-    }
-  }, [expenses]);
 
   const renderExpenseAccordions = expenses => Object.entries(expenses)
     .sort((acc1, acc2) => acc1[0] > acc2[0] ? -1 : 1)

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { View, TextInput, Button } from "react-native";
 import {
@@ -22,9 +22,8 @@ export const LoginScreen = ({navigation}) => {
     if(email && password) {
       try {
         const res = await loginUser(email, password);
-        dispatch(setNotificationLoginSuccess(true));
         await saveJWT(res.data.token);
-        navigation.navigate('ExpensesList')
+        navigation.navigate('ExpensesList');
       } catch(error) {
         console.error(error);
         if (error.response && error.response.status === 401) {

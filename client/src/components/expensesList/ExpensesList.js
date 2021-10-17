@@ -49,8 +49,7 @@ export const ExpensesList = ({navigation}) => {
 
   const renderExpenseAccordions = expenses => Object.entries(expenses)
     .sort((acc1, acc2) => acc1[0] > acc2[0] ? -1 : 1)
-    .map(entry => <ExpensesAccrodion date={entry[0]} items={entry[1]} key={entry[0]}/>)
-  
+    .map((entry, i) => <ExpensesAccrodion date={entry[0]} items={entry[1]} key={entry[0]} open={i === 0}/>)
 
   return (
     <View style={viewStyles.container}>

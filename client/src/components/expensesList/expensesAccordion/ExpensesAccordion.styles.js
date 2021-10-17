@@ -2,15 +2,18 @@ import { StyleSheet } from 'react-native';
 import { colors } from '../../../vars/colors'
 
 export const accordionStyles = StyleSheet.create({
+  accordion: {
+    marginBottom: 10,
+  },
   accrodionHead: {
-    fontSize: '16px',
-    fontWeight: 700,
-    marginBottom: '10px',
+    fontSize: 16,
+    fontWeight: '700',
+    marginBottom: 10,
     borderBottomColor: colors.lightGray,
-    borderBottomWidth: '1px'
+    borderBottomWidth: 1
   },
   accordionOpen: {
-    display: 'block'
+    display: 'flex'
   },
   accordionClose: {
     display: 'none'

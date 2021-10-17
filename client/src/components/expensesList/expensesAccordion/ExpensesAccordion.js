@@ -3,8 +3,8 @@ import { View, Text } from 'react-native';
 import { accordionStyles } from './ExpensesAccordion.styles';
 import { ExpensesListItem } from '../expensesListItem/ExpensesListItem';
 
-export const ExpensesAccrodion = ({date, items}) => {
-  const [isOpen, setIsOpen] = useState(false);
+export const ExpensesAccrodion = ({date, items, open}) => {
+  const [isOpen, setIsOpen] = useState(open);
 
   const renderAccordionItems = (items) => {
     return items.map(item => {

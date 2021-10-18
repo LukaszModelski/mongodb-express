@@ -9,17 +9,22 @@ export const listItemStyles = StyleSheet.create({
     marginBottom: 10,
   },
   descriptionContainer: {
+    flexShrink: 1,
     flexDirection: 'row',
+    paddingRight: 10,
   },
   amount: {
-    width: 50,
+    flexShrink: 0,
+    width: 60,
     borderRightWidth: 3,
-    borderRightColor: colors.blue
+    borderRightColor: colors.blue,
   },
   description: {
+    flexShrink: 1,
     paddingLeft: 10,
   },
   data: {
+    flexShrink: 0,
     color: colors.gray
   },
   textBlue: {

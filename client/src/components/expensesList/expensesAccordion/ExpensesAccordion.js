@@ -6,15 +6,14 @@ import { ExpensesListItem } from '../expensesListItem/ExpensesListItem';
 export const ExpensesAccrodion = ({date, items, open}) => {
   const [isOpen, setIsOpen] = useState(open);
 
-  const renderAccordionItems = (items) => {
-    return items.map(item => {
-      return  <ExpensesListItem item={item} key={item._id} />
-    });
-  }
+  const calculateSum = items => items.reduce((total, item) => total + item.amount, 0);
   
+  const renderAccordionItems = items => items.map(item => <ExpensesListItem item={item} key={item._id} />);
+
   return (
     <View style={accordionStyles.accordion}>
       <Text onPress={() => {setIsOpen(!isOpen)}} style={accordionStyles.accrodionHead}>{date}</Text>
+      <Text style={accordionStyles.sum}>Sum: {calculateSum(items)}zł</Text>
       <View style={isOpen ? accordionStyles.accordionOpen : accordionStyles.accordionClose}>
         {items && renderAccordionItems(items)}
       </View>

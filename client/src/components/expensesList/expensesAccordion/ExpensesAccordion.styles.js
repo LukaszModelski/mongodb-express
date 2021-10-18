@@ -12,6 +12,11 @@ export const accordionStyles = StyleSheet.create({
     borderBottomColor: colors.lightGray,
     borderBottomWidth: 1
   },
+  sum: {
+    position: 'absolute',
+    right: 0,
+    top: 0
+  },
   accordionOpen: {
     display: 'flex'
   },

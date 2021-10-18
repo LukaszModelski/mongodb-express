@@ -24,14 +24,12 @@ export const ExpensesListItem = ({item}) => {
 
   return (
     <View style={listItemStyles.listItem} key={item._id}>
-      <TouchableOpacity onPress={() => { setIsPanelOpen(!isPanelOpen) }}>
-        <View style={listItemStyles.descriptionContainer}>
+      <TouchableOpacity onPress={() => { setIsPanelOpen(!isPanelOpen) }} style={listItemStyles.descriptionContainer}>
           <Text style={[listItemStyles.amount, listItemStyles.textBlue]}>{item.amount} zł</Text>
           <Text style={[listItemStyles.description, listItemStyles.textBlue]}>
             {item.category}
             {item.description ? ` - ${item.description}` : ''}
           </Text>
-        </View>
       </TouchableOpacity>
       <Text style={[listItemStyles.data]}>{formatDate(item.date)}</Text>
       <View style={[listItemStyles.editPanel, isPanelOpen ? listItemStyles.editPanelOpen : listItemStyles.editPanelClose]}>

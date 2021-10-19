@@ -2,11 +2,16 @@
   "name": "client",
   "displayName": "client",
   "expo": {
-    "name": "client",
-    "slug": "client",
+    "name": "Expenses",
+    "slug": "expenses",
     "version": "1.0.0",
+    "owner": "czapa",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "android": {
+      "package": "expenses.app",
+      "icon": "./src/assets/money.png"
+    }
   }
 }

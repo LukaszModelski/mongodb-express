@@ -14,7 +14,7 @@ Go to `server/` directory.
 * Allowed all IPs to have access to DB for now.
 * You can switch between local and external in connectDB.js
 ### Heroku
-You can see logs locally with `heroku logs --tail` command.
+You can see logs locally with `heroku logs --tail` command from  `./server/dist/`.
 #### API adress
 * https://nodejs-expenses.herokuapp.com/
 * https://nodejs-expenses.herokuapp.com/api/expense - to get list of expesnses

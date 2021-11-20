@@ -17,8 +17,8 @@ const serverConfig = {
 app.use(cors())
 app.use(express.json())
 
-app.get('/api', (req, res) => {
-  res.send({message: 'Api response'}).end();
+app.get('/', (req, res) => {
+  res.send({message: 'Application test response'}).end();
 })
 
 app.use('/api/expense', verifyJWT, expenseRouter);

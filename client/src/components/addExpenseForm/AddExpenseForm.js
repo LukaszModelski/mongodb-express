@@ -74,7 +74,9 @@ export const AddExpenseForm = ({navigation}) => {
 
   const handleAddExpenseBtn = async (amount, cat, desc, dateString) => {
     dispatch(clearNotifications());
-    if(parseInt(amount)) {
+    const amountIsValid = amount.replace(',', '.') % 1 === 0; // replacing "," for ".", then checking if amount is solid value
+
+    if(amountIsValid) {
       setIsLoading(true);
       try {
         const response = await postNewExpense(amount, cat, desc, dateString);
@@ -100,7 +102,7 @@ export const AddExpenseForm = ({navigation}) => {
           <TextInput
             value={amount}
             onChangeText={amount => setAmount(amount)}
-            placeholder="0.00 zł"
+            placeholder="0 zł"
             style={formStyles.input}
           />
         </View>

@@ -16,14 +16,14 @@ export const formatDate = (dateString) => {
     month = '0' + month;
   }
   const year = date.getFullYear();
-  return `${month}.${year}`;
+  return `${year}.${month}`;
 }
 
 export const sortExpenses = expenses => {
   expenses.sort((exp1, exp2) => exp1.date < exp2.date ? 1 : -1);
 }
 
-export const groupExpensesByMounth = expensesArray => {
+export const groupExpensesByMonth = expensesArray => {
   let expensesObj = {};
   expensesArray.forEach(exp => {
     expensesObj = appendExpense(expensesObj, exp);

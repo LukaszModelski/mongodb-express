@@ -9,7 +9,7 @@ import { utilStyles } from "../../styles/utils.styles";
 import { colors } from "../../vars/colors";
 import { listStyles } from "./ExpensesList.styles";
 import { fetchExpenses, handleAPIerror } from "../../js/api";
-import { groupExpensesByMounth } from "../../js/utils";
+import { groupExpensesByMonth } from "../../js/utils";
 
 export const ExpensesList = ({navigation}) => {
   const dispatch = useDispatch();
@@ -31,7 +31,7 @@ export const ExpensesList = ({navigation}) => {
         const initExpenses = async () => {
           try {
             const response = await fetchExpenses();
-            const sortedExpenses = groupExpensesByMounth(response.data.expenses);
+            const sortedExpenses = groupExpensesByMonth(response.data.expenses);
             dispatch(setExpenses(sortedExpenses));
             dispatch(setExpensesCategories(response.data.categories));
             setFetched(true);

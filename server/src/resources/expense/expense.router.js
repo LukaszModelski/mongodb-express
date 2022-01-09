@@ -10,12 +10,13 @@ router
     res.status(200).send({expenses, categories}).end();
   })
   .post(async (req, res) => {
-    const amount = req.body.amount;
-    const category = req.body.category;
-    const dateString = req.body.dateString;
+    const { category, dateString } = req.body;
+    let { amount } = req.body;
+    amount = amount.replace(',', '.'); // to handle amount passed as a string with "," like "11,5"
+
     if (amount && category) {
       try {
-        const expense = await Expense.create({...req.body, date: new Date(dateString)});
+        const expense = await Expense.create({ ...req.body, amount, date: new Date(dateString)});
         return res.status(201).send({expense}).end();
       } catch(err) {
         console.error(err);

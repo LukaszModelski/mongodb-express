@@ -4,6 +4,13 @@ React Native App with Expo CLI Quickstart.
 https://reactnative.dev/docs/environment-setup  
 Go to `client/` directory.
 * `npm run web` - to start local dev, and open it in web
+### Building app for android
+Docs: https://docs.expo.dev/classic/building-standalone-apps/  
+Go to `client/` directory.
+* `expo build:android -t apk` - building apk standalone file.
+
+Open .apk file on android device and just install aplication.
+
 ## Server
 Go to `server/` directory.
 * **npm run server** - runs server

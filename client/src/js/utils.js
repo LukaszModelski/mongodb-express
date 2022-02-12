@@ -5,6 +5,8 @@ export const isNative = () => Platform.select({
   default: () => false
 })();
 
+export const objectDeepCopy = (obj) => JSON.parse(JSON.stringify(obj));
+
 export const calculateSum = expenses => expenses
   .reduce((total, curr) => ({amount: total.amount + curr.amount}), {amount: 0})
   .amount;
@@ -19,8 +21,16 @@ export const formatDate = (dateString) => {
   return `${year}.${month}`;
 }
 
-export const sortExpenses = expenses => {
+export const sortExpensesByDate = expenses => {
   expenses.sort((exp1, exp2) => exp1.date < exp2.date ? 1 : -1);
+}
+
+export const sortExpensesByPrice = expenses => {
+  expenses.sort((exp1, exp2) => exp1.amount < exp2.amount ? 1 : -1);
+}
+
+export const sortExpensesByCategory = expenses => {
+  expenses.sort((exp1, exp2) => exp1.category < exp2.category ? 1 : -1);
 }
 
 export const groupExpensesByMonth = expensesArray => {
@@ -33,19 +43,19 @@ export const groupExpensesByMonth = expensesArray => {
 
 /** 
  * @function
- * @param {Object} expensesObj - expenses object we want to append new expense to
- * @param {Object} newExpense - expense to we want to append to expenses obj
+ * @param {Object} expensesObj - expenses object that we want to append new expense to
+ * @param {Object} newExpense - expense that we want to append to expenses obj
  * @returns {Object}  New object with appended expense
 */
 export const appendExpense = (expensesObj, newExpense) => {
   const formatedDate = formatDate(newExpense.date);
-  const deepCopy = JSON.parse(JSON.stringify(expensesObj)); // Creates deep copy of an object. Works only for simple object, without function, etc.
+  const deepCopy = objectDeepCopy(expensesObj); // Creates deep copy of an object. Works only for simple object, without function, etc.
   if(deepCopy[formatedDate]) {
     deepCopy[formatedDate].push(newExpense);
   } else {
     deepCopy[formatedDate] = [newExpense];
   }
-  sortExpenses(deepCopy[formatedDate]);
+  sortExpensesByDate(deepCopy[formatedDate]);
   return deepCopy;
 }
 

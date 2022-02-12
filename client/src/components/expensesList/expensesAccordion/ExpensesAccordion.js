@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, Text } from 'react-native';
 import { accordionStyles } from './ExpensesAccordion.styles';
 import { ExpensesListItem } from '../expensesListItem/ExpensesListItem';
+import { Sorting } from '../sorting/Sorting';
 
 export const ExpensesAccrodion = ({date, items, open}) => {
   const [isOpen, setIsOpen] = useState(open);
@@ -15,6 +16,7 @@ export const ExpensesAccrodion = ({date, items, open}) => {
       <Text onPress={() => {setIsOpen(!isOpen)}} style={accordionStyles.accrodionHead}>{date}</Text>
       <Text style={accordionStyles.sum}>Sum: {calculateSum(items)}zł</Text>
       <View style={isOpen ? accordionStyles.accordionOpen : accordionStyles.accordionClose}>
+        <Sorting month={date} />
         {items && renderAccordionItems(items)}
       </View>
     </View>

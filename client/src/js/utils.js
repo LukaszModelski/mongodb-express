@@ -21,6 +21,14 @@ export const formatDate = (dateString) => {
   return `${year}.${month}`;
 }
 
+/** 
+ * @function
+ * @param {string} amount - string value that comes from input
+ * @returns {boolean}  true if amount is a valid value
+*/
+// export const validateAmount = (amount) => !!amount && amount.replace(',', '.') % 1 === 0; // replacing "," for ".", then checking if amount is solid value
+export const validateAmount = (amount) => /^[0-9]+$/.test(amount); // accepts only solid numbers
+
 export const sortExpensesByDate = expenses => {
   expenses.sort((exp1, exp2) => exp1.date < exp2.date ? 1 : -1);
 }

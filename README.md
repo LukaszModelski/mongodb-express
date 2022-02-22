@@ -34,3 +34,10 @@ Docs: https://devcenter.heroku.com/articles/git
   * `git push heroku master`
 * Configuration **Procfile** defines the command to start server in node.  
 * There must be at least empty package.json file to let Heroku know this is node.js app.
+
+## Additional info
+### JSDoc
+Docs: https://jsdoc.app/about-getting-started.html  
+If you want to run JSDoc for particural file:  
+* `jsdoc ./client/src/js/utils.js`
+* it will generate `out/` directory with docs

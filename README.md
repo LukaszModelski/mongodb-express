@@ -20,6 +20,12 @@ Go to `server/` directory.
 * Using mongoose to connect to MongoDB.
 * Allowed all IPs to have access to DB for now.
 * You can switch between local and external in connectDB.js
+
+Export from mongoDB:
+* **mongoexport --uri mongodb+srv://lukasz:PASSWORD@firstcluster.0e7cs.mongodb.net/expenses --collection users --type json --out users.json** - exports users collection from expenses databse to users.json file in directory you call command from
+
+Import to mongoDB:
+* **mongoimport --uri mongodb+srv://lukasz:PASSWORD@firstcluster.0e7cs.mongodb.net/testDatabase --collection testCollection  --type json --file users.json** - imports data from users.json to testCollection from testDatabase
 ### Heroku
 You can see logs locally with `heroku logs --tail` command from  `./server/dist/`.
 #### API adress

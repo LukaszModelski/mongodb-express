@@ -5,6 +5,9 @@ export const ADD_EXPENSE = 'ADD_EXPENSE';
 export const DELETE_EXPENSE = 'DELETE_EXPENSE';
 export const SET_EXPENSES_CATEGORIES = 'SET_EXPENSES_CATEGORIES';
 export const SET_SUM = 'SET_SUM';
+export const SORT_MONTH_EXPENSES_BY_PRICE = 'SORT_MONTH_EXPENSES_BY_PRICE';
+export const SORT_MONTH_EXPENSES_BY_DATE = 'SORT_MONTH_EXPENSES_BY_DATE';
+export const SORT_MONTH_EXPENSES_BY_CATEGORY = 'SORT_MONTH_EXPENSES_BY_CATEGORY';
 // notifications
 export const CLEAR_NOTIFICATIONS = 'CLEAR_NOTIFICATIONS';
 export const SET_NOTIFICATION_SUCCESS = 'SET_NOTIFICATION_SUCCESS';
@@ -34,6 +37,18 @@ export function setExpensesCategories(expensesCategories) {
 
 export function setSum(sum) {
   return { type: SET_SUM, sum }
+}
+
+export function sortMonthExpensesByDate(month) {
+  return { type: SORT_MONTH_EXPENSES_BY_DATE, month }
+}
+
+export function sortMonthExpensesByPrice(month) {
+  return { type: SORT_MONTH_EXPENSES_BY_PRICE, month }
+}
+
+export function sortMonthExpensesByCategory(month) {
+  return { type: SORT_MONTH_EXPENSES_BY_CATEGORY, month }
 }
 
 // notifications

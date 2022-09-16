@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { getJWT } from "./jwt";
 
-// const domain = 'https://nodejs-expenses.herokuapp.com/';
-const domain = 'http://localhost:3000/';
+const domain = 'https://nodejs-expenses.herokuapp.com/';
+// const domain = 'http://localhost:3000/';
 
 export const handleAPIerror = (error, navigation) => {
   if (error.response && error.response.status === 401) {

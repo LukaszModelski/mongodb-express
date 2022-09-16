@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const expenseCategories = ['sport', 'cloths', 'sport gear', 'bills', 'software', 'food', 'other'];
+const expenseCategories = ['sport', 'sport gear', 'food', 'alcohol', 'health', 'transport', 'holidays', 'bills', 'hardware', 'software', 'cloths', 'other'];
 
 const expenseSchema = new mongoose.Schema({
   amount: {

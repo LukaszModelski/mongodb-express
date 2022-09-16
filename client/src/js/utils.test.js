@@ -1,7 +1,7 @@
-import { formatDate, deleteExpense, appendExpense } from "./utils";
+import { formatDate, validateAmount, deleteExpense, appendExpense } from "./utils";
 
 const expenseObj = {
-  '02.2021': [
+  '2021.02': [
     {
       _id: "6020113fe1,b78a000423f003",
       amount: 90,
@@ -11,7 +11,7 @@ const expenseObj = {
       __v: 0,
     }
   ],
-  '09.2021': [
+  '2021.09': [
     {
       _id: "613ba7a2db4e293258b4d5c6",
       amount: 4,
@@ -50,7 +50,7 @@ const expenseToAppend = {
 }
 
 const expenseObjAfterDel = {
-  '02.2021': [
+  '2021.02': [
     {
       _id: "6020113fe1,b78a000423f003",
       amount: 90,
@@ -60,7 +60,7 @@ const expenseObjAfterDel = {
       __v: 0,
     }
   ],
-  '09.2021': [
+  '2021.09': [
     {
       _id: "613ba7a2db4e293258b4d5c6",
       amount: 4,
@@ -73,7 +73,7 @@ const expenseObjAfterDel = {
 }
 
 const expenseObjAfterAppend = {
-  '02.2021': [
+  '2021.02': [
     {
       _id: "6020113fe1,b78a000423f003",
       amount: 90,
@@ -83,7 +83,7 @@ const expenseObjAfterAppend = {
       __v: 0,
     }
   ],
-  '09.2021': [
+  '2021.09': [
     {
       _id: "613bbf4567e5262eac9a918b",
       amount: 1212,
@@ -113,13 +113,34 @@ const expenseObjAfterAppend = {
 
 describe('Format date', function () {
   test('Date string to custom form', () => {
-    expect(formatDate('2021-02-01T16:11:21.103Z')).toBe('02.2021');
-    expect(formatDate('2021-09-10T18:44:40.001Z')).toBe('09.2021');
-    expect(formatDate('2021-12-10T18:44:40.001Z')).toBe('12.2021');
+    expect(formatDate('2021-02-01T16:11:21.103Z')).toBe('2021.02');
+    expect(formatDate('2021-09-10T18:44:40.001Z')).toBe('2021.09');
+    expect(formatDate('2021-12-10T18:44:40.001Z')).toBe('2021.12');
   });
   test('False date strings', () => {
     expect(formatDate('')).toBe('NaN.NaN');
     expect(formatDate('qwerty')).toBe('NaN.NaN');
+  });
+});
+
+describe('validate amount function', function () {
+  test('empty string should be false', () => {
+    expect(validateAmount('')).toEqual(false);
+  });
+  test('decimal value with \',\' should be false', () => {
+    expect(validateAmount('2,5')).toEqual(false);
+  });
+  test('decimal value with \'.\' should be false', () => {
+    expect(validateAmount('2,5')).toEqual(false);
+  });
+  test('decimallonger value with \'.\' should be false', () => {
+    expect(validateAmount('25456,5')).toEqual(false);
+  });
+  test('solid single digit should be true', () => {
+    expect(validateAmount('4')).toEqual(true);
+  });
+  test('solid number should be true', () => {
+    expect(validateAmount('4456456')).toEqual(true);
   });
 });
 

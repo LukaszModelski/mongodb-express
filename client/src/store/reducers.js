@@ -4,6 +4,9 @@ import {
   DELETE_EXPENSE,
   SET_EXPENSES_CATEGORIES,
   SET_SUM,
+  SORT_MONTH_EXPENSES_BY_PRICE,
+  SORT_MONTH_EXPENSES_BY_DATE,
+  SORT_MONTH_EXPENSES_BY_CATEGORY,
   CLEAR_NOTIFICATIONS,
   SET_NOTIFICATION_SUCCESS,
   SET_NOTIFICATION_FAIL,
@@ -13,7 +16,14 @@ import {
   SET_NOTIFICATION_EMAIL_AND_PASS_REQUIRED
 } from "./actions";
 
-import { appendExpense,deleteExpense } from "../js/utils";
+import {
+  appendExpense,
+  deleteExpense,
+  objectDeepCopy,
+  sortExpensesByPrice,
+  sortExpensesByDate,
+  sortExpensesByCategory
+} from "../js/utils";
 
 const initialState = {
   expenses: {},
@@ -25,38 +35,59 @@ const initialState = {
 export function reducers(state = initialState, action) {
   switch (action.type) {
     // expenses
-    case SET_EXPENSES:
+    case SET_EXPENSES: {
       return {
         ...state,
         expenses: action.expenses
       }
-    case ADD_EXPENSE:
+    }
+    case ADD_EXPENSE: {
       return {
         ...state,
         expenses: appendExpense(state.expenses, action.expense),
       }
-    case DELETE_EXPENSE:
+    }
+    case DELETE_EXPENSE: {
       return {
         ...state,
         expenses: deleteExpense(state.expenses, action.expense),
       }
-    case SET_EXPENSES_CATEGORIES:
+    }
+    case SET_EXPENSES_CATEGORIES: {
       return {
         ...state,
         expensesCategories: action.expensesCategories
       }
-    case SET_SUM:
+    }
+    case SET_SUM: {
       return {
         ...state,
         sum: action.sum
       }
+    }
+    case SORT_MONTH_EXPENSES_BY_DATE: {
+      const newState = objectDeepCopy(state);
+      sortExpensesByDate(newState.expenses[action.month]);
+      return newState;
+    }
+    case SORT_MONTH_EXPENSES_BY_PRICE: {
+      const newState = objectDeepCopy(state);
+      sortExpensesByPrice(newState.expenses[action.month]);
+      return newState;
+    }
+    case SORT_MONTH_EXPENSES_BY_CATEGORY: {
+      const newState = objectDeepCopy(state);
+      sortExpensesByCategory(newState.expenses[action.month]);
+      return newState;
+    }
     // notifications
-    case CLEAR_NOTIFICATIONS:
+    case CLEAR_NOTIFICATIONS: {
       return {
         ...state,
         showNotification: {}
       }
-    case SET_NOTIFICATION_SUCCESS:
+    }
+    case SET_NOTIFICATION_SUCCESS: {
       return {
         ...state,
         showNotification: {
@@ -64,7 +95,8 @@ export function reducers(state = initialState, action) {
           success: action.state
         }
       }
-    case SET_NOTIFICATION_FAIL:
+    }
+    case SET_NOTIFICATION_FAIL: {
       return {
         ...state,
         showNotification: {
@@ -72,7 +104,8 @@ export function reducers(state = initialState, action) {
           fail: action.state
         }
       }
-    case SET_NOTIFICATION_LOGIN_SUCCESS:
+    }
+    case SET_NOTIFICATION_LOGIN_SUCCESS: {
       return {
         ...state,
         showNotification: {
@@ -80,7 +113,8 @@ export function reducers(state = initialState, action) {
           loginSuccess: action.state
         }
       }
-    case SET_NOTIFICATION_LOGIN_FAIL:
+    }
+    case SET_NOTIFICATION_LOGIN_FAIL: {
       return {
         ...state,
         showNotification: {
@@ -88,7 +122,8 @@ export function reducers(state = initialState, action) {
           loginFail: action.state
         }
       }
-    case SET_NOTIFICATION_AMOUNT_REQUIRED:
+    }
+    case SET_NOTIFICATION_AMOUNT_REQUIRED: {
       return {
         ...state,
         showNotification: {
@@ -96,7 +131,8 @@ export function reducers(state = initialState, action) {
           amountRequired: action.state
         }
       }
-    case SET_NOTIFICATION_EMAIL_AND_PASS_REQUIRED:
+    }
+    case SET_NOTIFICATION_EMAIL_AND_PASS_REQUIRED: {
       return {
         ...state,
         showNotification: {
@@ -104,6 +140,7 @@ export function reducers(state = initialState, action) {
           emailAndPassRequired: action.state
         }
       }
+    }
     default:
       return state
   }

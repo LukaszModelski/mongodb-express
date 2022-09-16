@@ -25,6 +25,7 @@ import { viewStyles } from "../../styles/view.styles";
 import { utilStyles } from "../../styles/utils.styles";
 import { formStyles } from "./AddExpenseForm.styles";
 import { postNewExpense } from "../../js/api";
+import { validateAmount } from "../../js/utils";
 import { colors } from "../../vars/colors";
 
 export const AddExpenseForm = ({navigation}) => {
@@ -74,9 +75,8 @@ export const AddExpenseForm = ({navigation}) => {
 
   const handleAddExpenseBtn = async (amount, cat, desc, dateString) => {
     dispatch(clearNotifications());
-    const amountIsValid = amount.replace(',', '.') % 1 === 0; // replacing "," for ".", then checking if amount is solid value
 
-    if(amountIsValid) {
+    if(validateAmount(amount)) {
       setIsLoading(true);
       try {
         const response = await postNewExpense(amount, cat, desc, dateString);

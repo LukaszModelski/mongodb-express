@@ -7,14 +7,12 @@ import { setExpenses, setExpensesCategories, clearNotifications } from "../../st
 import { viewStyles } from "../../styles/view.styles";
 import { utilStyles } from "../../styles/utils.styles";
 import { colors } from "../../vars/colors";
-import { listStyles } from "./ExpensesList.styles";
 import { fetchExpenses, handleAPIerror } from "../../js/api";
 import { groupExpensesByMonth } from "../../js/utils";
 
 export const ExpensesList = ({navigation}) => {
   const dispatch = useDispatch();
   const expenses = useSelector(state => state.expenses);
-  const sum = useSelector(state => state.sum);
   const [isLoading, setIsLoading] = useState(false);
   const [fetched, setFetched] = useState(false);
 
@@ -48,13 +46,12 @@ export const ExpensesList = ({navigation}) => {
 
   const renderExpenseAccordions = expenses => Object.entries(expenses)
     .sort((acc1, acc2) => acc1[0] > acc2[0] ? -1 : 1)
-    .map((entry, i) => <ExpensesAccrodion date={entry[0]} items={entry[1]} key={entry[0]} open={i === 0}/>)
+    .map((entry, i) => <ExpensesAccrodion navigation={navigation} date={entry[0]} items={entry[1]} key={entry[0]} open={i === 0}/>)
 
   return (
     <View style={viewStyles.container}>
       <ScrollView>
         {Object.keys(expenses).length ? renderExpenseAccordions(expenses) : <></>}
-        {sum ? <Text style={listStyles.sum}>Sum: {sum} zł</Text> : <></>}
         {isLoading 
           ? <ActivityIndicator
             size="large"

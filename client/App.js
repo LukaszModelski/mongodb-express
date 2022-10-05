@@ -7,6 +7,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import { ExpensesList } from "./src/components/expensesList/ExpensesList";
 import { AddExpenseForm } from "./src/components/addExpenseForm/AddExpenseForm";
+import { ChartView } from "./src/views/ChartView";
 import { LoginScreen } from "./src/components/loginScreen/LoginScreen";
 import { reducers } from "./src/store/reducers";
 
@@ -28,6 +29,7 @@ export default function App() {
         <Stack.Navigator>
           <Stack.Screen options={{title: 'Expenses'}} name="ExpensesList" component={ExpensesList} />
           <Stack.Screen options={{title: 'New Expense'}} name="AddExpenseForm" component={AddExpenseForm} />
+          <Stack.Screen options={{title: 'Chart'}} name="ChartView" component={ChartView} />
           <Stack.Screen options={{title: 'Login'}} name="LoginScreen" component={LoginScreen} />
         </Stack.Navigator>
       </NavigationContainer>

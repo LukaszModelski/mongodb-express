@@ -21,10 +21,10 @@ export const ExpensesAccrodion = ({date, items, open, navigation}) => {
         style={accordionStyles.pieChartIcon}
         onPress={() => navigation.navigate('ChartView', { date })}
       />
-      <View style={isOpen ? accordionStyles.accordionOpen : accordionStyles.accordionClose}>
+      {isOpen && <View>
         <Sorting month={date} />
         {items && renderAccordionItems(items)}
-      </View>
+      </View>}
     </View>
   )
 }

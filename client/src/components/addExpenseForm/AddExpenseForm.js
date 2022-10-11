@@ -6,11 +6,11 @@ import {
   TextInput,
   Text,
   Button,
-  Picker,
   ActivityIndicator,
   TouchableOpacity,
   Platform
 } from 'react-native';
+import { Picker } from '@react-native-picker/picker' 
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Fontisto } from '@expo/vector-icons';
 import { useSelector, useDispatch } from 'react-redux';
@@ -44,11 +44,12 @@ export const AddExpenseForm = ({navigation}) => {
     }, [])
   );
   
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('blur', () => console.log('BLURR form add expense'));
+  // IS THIS NEEDED?
+  // useEffect(() => {
+  //   const unsubscribe = navigation.addListener('blur', () => console.log('BLURR form add expense'));
 
-    return unsubscribe;
-  }, [navigation]);
+  //   return unsubscribe.remove();
+  // }, [navigation]);
 
   useEffect(() => {
     setCategory(expensesCategories[0]);

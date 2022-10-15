@@ -60,7 +60,7 @@ router
               email: user.email
             }
           }
-          const signedToken = jwt.sign(unsignedToken, process.env.JWT_SECRET, { expiresIn: "1h" });
+          const signedToken = jwt.sign(unsignedToken, process.env.JWT_SECRET, { expiresIn: "10h" });
           return res
             .status(200)
             .send({

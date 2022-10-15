@@ -14,6 +14,11 @@ export const accordionStyles = StyleSheet.create({
   },
   sum: {
     position: 'absolute',
+    right: 30,
+    top: 0
+  },
+  pieChartIcon: {
+    position: 'absolute',
     right: 0,
     top: 0
   },

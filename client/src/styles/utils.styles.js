@@ -18,5 +18,9 @@ export const utilStyles = StyleSheet.create({
   },
   marginBottom20: {
     marginBottom: 20
+  },
+  heading: {
+    fontSize: 24,
+    fontWeight: 700
   }
 });

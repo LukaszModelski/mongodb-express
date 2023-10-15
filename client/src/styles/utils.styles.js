@@ -21,6 +21,6 @@ export const utilStyles = StyleSheet.create({
   },
   heading: {
     fontSize: 24,
-    fontWeight: 700
+    fontWeight: '700'
   }
 });

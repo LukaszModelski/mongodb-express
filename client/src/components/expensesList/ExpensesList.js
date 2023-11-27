@@ -1,5 +1,11 @@
 import React, { useState, useCallback } from "react";
-import { View, Button, ScrollView, ActivityIndicator } from "react-native";
+import {
+  View,
+  Button,
+  Text,
+  ScrollView,
+  ActivityIndicator,
+} from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import { ExpensesAccrodion } from "./expensesAccordion/ExpensesAccordion";
 import { useSelector, useDispatch } from "react-redux";

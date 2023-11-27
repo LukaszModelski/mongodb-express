@@ -20,7 +20,7 @@ export const formStyles = StyleSheet.create({
   input: {
     borderWidth: 1,
     borderColor: colors.gray,
-    paddingVertical: 12,
+    paddingVertical: 13,
     paddingHorizontal: 5,
   },
   pickerWrapper: {

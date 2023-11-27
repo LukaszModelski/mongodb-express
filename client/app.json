@@ -12,6 +12,11 @@
     "android": {
       "package": "expenses.app",
       "icon": "./src/assets/money.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "d684ac81-01dc-4df3-bba5-b5c89b8c302a"
+      }
     }
   }
 }

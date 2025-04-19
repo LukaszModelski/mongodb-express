@@ -41,7 +41,7 @@ Export from mongoDB:
 
 Import to mongoDB:
 
-- **mongoimport --uri mongodb+srv://lukasz:PASSWORD@firstcluster.0e7cs.mongodb.net/testDatabase --collection testCollection --type json --file users.json** - imports data from users.json to testCollection from testDatabase
+- **mongoimport --uri mongodb+srv://lukasz:PASSWORD@firstcluster.0e7cs.mongodb.net/testDatabase --collection testCollection --type json --file users.json** - imports data from users.json to testCollection of testDatabase
 
 ### Heroku
 

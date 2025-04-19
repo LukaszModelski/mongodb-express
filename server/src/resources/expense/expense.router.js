@@ -4,45 +4,62 @@ import { Expense, categories } from "./expense.model";
 const router = Router();
 
 router
-  .route('/')
+  .route("/")
   .get(async (req, res) => {
     const expenses = await Expense.find({});
-    res.status(200).send({expenses, categories}).end();
+    res.status(200).send({ expenses, categories }).end();
   })
   .post(async (req, res) => {
-    const { category, dateString } = req.body;
+    const { category, dateString, description } = req.body;
     let { amount } = req.body;
-    amount = amount.replace(',', '.'); // to handle amount passed as a string with "," like "11,5"
+    amount = amount.replace(",", "."); // to handle amount passed as a string with "," like "11,5"
 
     if (amount && category) {
       try {
-        const expense = await Expense.create({ ...req.body, amount, date: new Date(dateString)});
-        return res.status(201).send({expense}).end();
-      } catch(err) {
+        const expense = await Expense.create({
+          description,
+          category,
+          amount,
+          date: new Date(dateString),
+        });
+        return res.status(201).send({ expense }).end();
+      } catch (err) {
         console.error(err);
-        return res.status(400).send({message: 'Probably wrong category value.'}).end();
+        return res
+          .status(400)
+          .send({ message: "Probably wrong category value." })
+          .end();
       }
     } else {
-      return res.status(400).send({message: 'amount or category info missing in request.'}).end();
+      return res
+        .status(400)
+        .send({ message: "amount or category info missing in request." })
+        .end();
     }
   })
   .delete(async (req, res) => {
     const id = req.body.id;
     if (id) {
       try {
-        const removed = await Expense.findOneAndDelete({ _id: id })
+        const removed = await Expense.findOneAndDelete({ _id: id });
         if (removed) {
-          return res.status(200).send({removed, message: 'Resource removed succesfully.'}).end();
+          return res
+            .status(200)
+            .send({ removed, message: "Resource removed succesfully." })
+            .end();
         } else {
-          return res.status(404).send({message: 'Resource with provided id was not found.'}).end();
+          return res
+            .status(404)
+            .send({ message: "Resource with provided id was not found." })
+            .end();
         }
-      } catch(err) {
+      } catch (err) {
         console.error(err);
-        return res.status(400).send({message: 'Something went wrong.'}).end();
+        return res.status(400).send({ message: "Something went wrong." }).end();
       }
     } else {
-      return res.status(400).send({message: 'Id param is missing.'}).end();
+      return res.status(400).send({ message: "Id param is missing." }).end();
     }
-  })
+  });
 
 export default router;

@@ -1,9 +1,9 @@
-const NodemonPlugin = require('nodemon-webpack-plugin');
+const NodemonPlugin = require("nodemon-webpack-plugin");
 
 module.exports = {
-  watch: true,
+  watch: false,
   output: {
-    filename: 'index.js'
+    filename: "index.js",
   },
   module: {
     rules: [
@@ -11,17 +11,15 @@ module.exports = {
         test: /\.m?js$/,
         exclude: /(node_modules|bower_components)/,
         use: {
-          loader: 'babel-loader',
+          loader: "babel-loader",
           options: {
-            presets: ['@babel/preset-env'],
-            plugins: ['@babel/plugin-transform-runtime']
-          }
-        }
-      }
-    ]
+            presets: ["@babel/preset-env"],
+            plugins: ["@babel/plugin-transform-runtime"],
+          },
+        },
+      },
+    ],
   },
-  plugins: [
-    new NodemonPlugin({nodeArgs: ['--inspect']})
-  ],
-  target: 'node'
-}
+  plugins: [new NodemonPlugin({ nodeArgs: ["--inspect"] })],
+  target: "node",
+};

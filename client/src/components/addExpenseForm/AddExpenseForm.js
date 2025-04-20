@@ -105,6 +105,7 @@ export const AddExpenseForm = ({ navigation }) => {
             value={amount}
             onChangeText={(amount) => setAmount(amount)}
             placeholder="0 zł"
+            keyboardType="numeric"
             style={formStyles.input}
           />
         </View>

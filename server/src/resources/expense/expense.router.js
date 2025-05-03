@@ -6,10 +6,12 @@ const router = Router();
 router
   .route("/")
   .get(async (req, res) => {
-    const expenses = await Expense.find({});
+    const userId = req.user["_id"];
+    const expenses = await Expense.find({ userId });
     res.status(200).send({ expenses, categories }).end();
   })
   .post(async (req, res) => {
+    const userId = req.user["_id"];
     const { category, dateString, description } = req.body;
     let { amount } = req.body;
     amount = amount.replace(",", "."); // to handle amount passed as a string with "," like "11,5"
@@ -17,6 +19,7 @@ router
     if (amount && category) {
       try {
         const expense = await Expense.create({
+          userId,
           description,
           category,
           amount,

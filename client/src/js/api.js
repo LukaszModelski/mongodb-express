@@ -1,7 +1,8 @@
 import axios from "axios";
 import { getJWT } from "./jwt";
 
-const domain = "https://expenses-sxp4.onrender.com/";
+const domain = "http://czapafunbox.ddns.net:8080/";
+// const domain = "https://expenses-sxp4.onrender.com/";
 // const domain = 'https://nodejs-expenses.herokuapp.com/';
 //expenses-sxp4.onrender.com/
 // const domain = 'http://localhost:3000/';

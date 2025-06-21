@@ -6,9 +6,7 @@
     "slug": "expenses",
     "version": "1.0.0",
     "owner": "czapa",
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "android": {
       "package": "expenses.app",
       "icon": "./src/assets/money.png"
@@ -17,6 +15,16 @@
       "eas": {
         "projectId": "d684ac81-01dc-4df3-bba5-b5c89b8c302a"
       }
-    }
+    },
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          }
+        }
+      ]
+    ]
   }
 }

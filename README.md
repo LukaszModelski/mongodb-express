@@ -71,8 +71,8 @@ Docs: https://devcenter.heroku.com/articles/git
 - opening rbp terminal remotely with command:
   - connect to rbp through ssh
   - `export DISPLAY=:0` - chooses the first rbp display
-  - to run DUC: `lxterminal -e bash -c "noip-duc -u 7zqgx2z -p qTCgP48pxNZG -g czapafunbox.ddns.net --check-interval 5m"`
-  - to run expenses backend: `lxterminal -e bash -c "cd /home/pi/Desktop/mongodb-express/server && /home/pi/.nvm/versions/node/v23.0.0/bin/node ./dist/index.js"`
+  - to run DUC: `nohup lxterminal -e bash -c "noip-duc -u 7zqgx2z -p qTCgP48pxNZG -g czapafunbox.ddns.net --check-interval 5m" &`
+  - to run expenses backend: `nohup lxterminal -e bash -c "cd /home/pi/Desktop/mongodb-express/server && /home/pi/.nvm/versions/node/v23.0.0/bin/node ./dist/index.js" &`
 
 ## Additional info
 

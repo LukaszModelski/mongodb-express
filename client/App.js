@@ -4,10 +4,10 @@ import { Provider } from "react-redux";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import { ExpensesList } from "./src/components/expensesList/ExpensesList";
-import { AddExpenseForm } from "./src/components/addExpenseForm/AddExpenseForm";
-import { ChartView } from "./src/views/ChartView";
-import { LoginScreen } from "./src/components/loginScreen/LoginScreen";
+import { ExpensesView } from "./src/views/ExpensesView/ExpensesView";
+import { AddExpenseView } from "./src/views/AddExpenseView/AddExpenseView";
+import { ChartView } from "./src/views/ChartView/ChartView";
+import { LoginView } from "./src/views/LoginView/LoginView";
 import { reducers } from "./src/store/reducers";
 
 const store = createStore(
@@ -28,13 +28,13 @@ export default function App() {
         <Stack.Navigator>
           <Stack.Screen
             options={{ title: "Expenses" }}
-            name="ExpensesList"
-            component={ExpensesList}
+            name="ExpensesView"
+            component={ExpensesView}
           />
           <Stack.Screen
             options={{ title: "New Expense" }}
-            name="AddExpenseForm"
-            component={AddExpenseForm}
+            name="AddExpenseView"
+            component={AddExpenseView}
           />
           <Stack.Screen
             options={{ title: "Chart" }}
@@ -43,8 +43,8 @@ export default function App() {
           />
           <Stack.Screen
             options={{ title: "Login" }}
-            name="LoginScreen"
-            component={LoginScreen}
+            name="LoginView"
+            component={LoginView}
           />
         </Stack.Navigator>
       </NavigationContainer>

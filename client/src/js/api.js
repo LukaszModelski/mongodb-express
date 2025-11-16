@@ -9,7 +9,7 @@ const domain = "http://czapafunbox.ddns.net:8080/";
 
 export const handleAPIerror = (error, navigation) => {
   if (error.response && error.response.status === 401) {
-    navigation.navigate("LoginScreen");
+    navigation.navigate("LoginView");
     console.info("Redirecting to login page");
   } else {
     console.error(error);

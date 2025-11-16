@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useFocusEffect } from "@react-navigation/native";
-import { Notifications } from "../notifications/Notifications";
+import { Notifications } from "../../components/notifications/Notifications";
 import {
   View,
   TextInput,
@@ -23,12 +23,12 @@ import {
 } from "../../store/actions";
 import { viewStyles } from "../../styles/view.styles";
 import { utilStyles } from "../../styles/utils.styles";
-import { formStyles } from "./AddExpenseForm.styles";
+import { addExpenseViewStyles } from "./AddExpenseView.styles";
 import { postNewExpense } from "../../js/api";
 import { validateAmount } from "../../js/utils";
 import { colors } from "../../vars/colors";
 
-export const AddExpenseForm = ({ navigation }) => {
+export const AddExpenseView = ({ navigation }) => {
   const dispatch = useDispatch();
   const expensesCategories = useSelector((state) => state.expensesCategories);
   const [isLoading, setIsLoading] = useState(false);
@@ -92,54 +92,54 @@ export const AddExpenseForm = ({ navigation }) => {
 
   return (
     <View style={viewStyles.container}>
-      <View style={formStyles.flex}>
+      <View style={addExpenseViewStyles.flex}>
         <View
           style={[
-            formStyles.labelInputWrapper,
-            formStyles.wrapperShort,
+            addExpenseViewStyles.labelInputWrapper,
+            addExpenseViewStyles.wrapperShort,
             utilStyles.paddingRight5,
           ]}
         >
-          <Text style={formStyles.label}>Amount</Text>
+          <Text style={addExpenseViewStyles.label}>Amount</Text>
           <TextInput
             value={amount}
             onChangeText={(amount) => setAmount(amount)}
             placeholder="0 zł"
             keyboardType="numeric"
-            style={formStyles.input}
+            style={addExpenseViewStyles.input}
           />
         </View>
         <View
           style={[
-            formStyles.labelInputWrapper,
-            formStyles.wrapperShort,
+            addExpenseViewStyles.labelInputWrapper,
+            addExpenseViewStyles.wrapperShort,
             utilStyles.paddingLeft5,
           ]}
         >
-          <Text style={formStyles.label}>Select category</Text>
-          <View style={formStyles.pickerWrapper}>
+          <Text style={addExpenseViewStyles.label}>Select category</Text>
+          <View style={addExpenseViewStyles.pickerWrapper}>
             <Picker
               selectedValue={category}
-              style={formStyles.picker}
+              style={addExpenseViewStyles.picker}
               onValueChange={(cat) => setCategory(cat)}
             >
               {renderPickerList(expensesCategories)}
             </Picker>
           </View>
         </View>
-        <View style={formStyles.labelInputWrapper}>
-          <Text style={formStyles.label}>Description</Text>
+        <View style={addExpenseViewStyles.labelInputWrapper}>
+          <Text style={addExpenseViewStyles.label}>Description</Text>
           <TextInput
             value={description}
             onChangeText={(desc) => setDescription(desc)}
             placeholder="lorem ipsum..."
-            style={formStyles.input}
+            style={addExpenseViewStyles.input}
           />
         </View>
-        <View style={formStyles.datePicker}>
+        <View style={addExpenseViewStyles.datePicker}>
           <TouchableOpacity onPress={showDatePicker}>
             <Fontisto
-              style={formStyles.callendarIcon}
+              style={addExpenseViewStyles.callendarIcon}
               name="date"
               size={20}
               color={colors.blue}

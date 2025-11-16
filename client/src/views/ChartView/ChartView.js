@@ -2,11 +2,11 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { View, Text, Dimensions, ScrollView } from "react-native";
 import { PieChart } from "react-native-chart-kit";
-import { Summary } from "../components/summary/Summary";
-import { viewStyles } from "../styles/view.styles";
-import { utilStyles } from "../styles/utils.styles";
-import { categoryColors } from "../vars/colors";
-import { expensesArrayToObj } from "../js/utils";
+import { Summary } from "../../components/summary/Summary";
+import { viewStyles } from "../../styles/view.styles";
+import { utilStyles } from "../../styles/utils.styles";
+import { categoryColors } from "../../vars/colors";
+import { expensesArrayToObj } from "../../js/utils";
 
 export const ChartView = ({ route, navigation }) => {
   const date = route.params.date;

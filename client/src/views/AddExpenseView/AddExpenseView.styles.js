@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { colors } from "../../vars/colors";
 
-export const formStyles = StyleSheet.create({
+export const addExpenseViewStyles = StyleSheet.create({
   flex: {
     flexDirection: "row",
     flexWrap: "wrap",

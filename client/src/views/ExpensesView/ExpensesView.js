@@ -1,11 +1,5 @@
 import React, { useState, useCallback } from "react";
-import {
-  View,
-  Button,
-  Text,
-  ScrollView,
-  ActivityIndicator,
-} from "react-native";
+import { View, Button, ScrollView, ActivityIndicator } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import { ExpensesAccrodion } from "./expensesAccordion/ExpensesAccordion";
 import { useSelector, useDispatch } from "react-redux";
@@ -20,7 +14,7 @@ import { colors } from "../../vars/colors";
 import { fetchExpenses, handleAPIerror } from "../../js/api";
 import { groupExpensesByMonth } from "../../js/utils";
 
-export const ExpensesList = ({ navigation }) => {
+export const ExpensesView = ({ navigation }) => {
   const dispatch = useDispatch();
   const expenses = useSelector((state) => state.expenses);
   const [isLoading, setIsLoading] = useState(false);
@@ -54,7 +48,7 @@ export const ExpensesList = ({ navigation }) => {
     }, [fetched])
   );
 
-  const renderExpenseAccordions = (expenses) =>
+  const Accordions = ({ expenses }) =>
     Object.entries(expenses)
       .sort((acc1, acc2) => (acc1[0] > acc2[0] ? -1 : 1))
       .map((entry, i) => (
@@ -72,19 +66,11 @@ export const ExpensesList = ({ navigation }) => {
       <ScrollView>
         <Button
           title="New expense"
-          onPress={() => navigation.navigate("AddExpenseForm")}
+          onPress={() => navigation.navigate("AddExpenseView")}
         />
         <View style={utilStyles.marginBottom20}></View>
-        {Object.keys(expenses).length ? (
-          renderExpenseAccordions(expenses)
-        ) : (
-          <></>
-        )}
-        {isLoading ? (
-          <ActivityIndicator size="large" color={colors.blue} />
-        ) : (
-          <></>
-        )}
+        {Object.keys(expenses).length > 0 && <Accordions expenses={expenses} />}
+        {isLoading && <ActivityIndicator size="large" color={colors.blue} />}
       </ScrollView>
     </View>
   );

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { View, TextInput, Button } from "react-native";
 import {
   setNotificationEmailAndPassRequired,
@@ -7,25 +7,25 @@ import {
   setNotificationLoginFail,
   clearNotifications,
 } from "../../store/actions";
-import { Notifications } from "../notifications/Notifications";
+import { Notifications } from "../../components/notifications/Notifications";
 import { saveJWT } from "../../js/jwt";
 import { loginUser } from "../../js/api";
-import { viewStyles } from '../../styles/view.styles';
-import { loginScreenStyles } from "./LoginScreen.styles";
+import { viewStyles } from "../../styles/view.styles";
+import { loginViewStyles } from "./LoginView.styles";
 
-export const LoginScreen = ({navigation}) => {
+export const LoginView = ({ navigation }) => {
   const dispatch = useDispatch();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleLoginBtn = async (email, password) => {
     dispatch(clearNotifications());
-    if(email && password) {
+    if (email && password) {
       try {
         const res = await loginUser(email, password);
         await saveJWT(res.data.token);
-        navigation.navigate('ExpensesList');
-      } catch(error) {
+        navigation.navigate("ExpensesView");
+      } catch (error) {
         console.error(error);
         if (error.response && error.response.status === 401) {
           dispatch(setNotificationLoginFail(true));
@@ -36,26 +36,28 @@ export const LoginScreen = ({navigation}) => {
     } else {
       dispatch(setNotificationEmailAndPassRequired(true));
     }
-  } 
+  };
 
   return (
     <View style={viewStyles.container}>
       <TextInput
-        onChangeText={text => setEmail(text)}
+        onChangeText={(text) => setEmail(text)}
         placeholder="email"
-        style={loginScreenStyles.input}
+        style={loginViewStyles.input}
       />
       <TextInput
         secureTextEntry={true}
-        onChangeText={text => setPassword(text)}
+        onChangeText={(text) => setPassword(text)}
         placeholder="password"
-        style={loginScreenStyles.input}
+        style={loginViewStyles.input}
       />
       <Button
         title="Login"
-        onPress={() => { handleLoginBtn(email, password) }}
+        onPress={() => {
+          handleLoginBtn(email, password);
+        }}
       />
       <Notifications />
     </View>
   );
-}
+};

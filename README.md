@@ -66,7 +66,7 @@ Docs: https://devcenter.heroku.com/articles/git
 
 ## Raspberry PI
 
-- remote connection `ssh pi@<ip>`
+- remote connection `ssh pi@<ip>` or `ssh pi@raspberrypi`
 - run NoIP Dynamic Update CLient `noip-duc -u <username> -p <password> -g czapafunbox.ddns.net --check-interval 5m`
 - opening rbp terminal remotely with command:
   - connect to rbp through ssh

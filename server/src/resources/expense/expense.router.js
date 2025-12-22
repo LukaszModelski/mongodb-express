@@ -6,9 +6,44 @@ const router = Router();
 router
   .route("/")
   .get(async (req, res) => {
-    const userId = req.user["_id"];
-    const expenses = await Expense.find({ userId });
-    return res.status(200).send({ expenses, categories });
+    const userId = req.user._id;
+    const grouped = await Expense.aggregate([
+      { $match: { userId } },
+
+      // Create a YYYY-MM grouping key
+      {
+        $addFields: {
+          month: {
+            $dateToString: { format: "%Y.%m", date: "$date" },
+          },
+        },
+      },
+
+      // Group all expenses into arrays
+      {
+        $group: {
+          _id: "$month",
+          expenses: { $push: "$$ROOT" },
+        },
+      },
+
+      // Sort expenses within each month by date DESC
+      {
+        $addFields: {
+          expenses: {
+            $sortArray: { input: "$expenses", sortBy: { date: -1 } },
+          },
+        },
+      },
+
+      // Sort months DESC
+      { $sort: { _id: -1 } },
+    ]);
+
+    // Convert array to object (clean structure)
+    const result = Object.fromEntries(grouped.map((g) => [g._id, g.expenses]));
+
+    return res.status(200).send({ expensesByMonth: result, categories });
   })
   .post(async (req, res) => {
     const userId = req.user["_id"];
@@ -61,46 +96,6 @@ router
     }
   });
 
-router.route("/initialSummary").get(async (req, res) => {
-  const userId = req.user["_id"];
-  const rawInitialSummary = await Expense.aggregate([
-    {
-      $match: { userId },
-    },
-    {
-      $group: {
-        _id: {
-          year: { $year: "$date" },
-          month: { $month: "$date" },
-        },
-        totalAmount: { $sum: "$amount" },
-      },
-    },
-    {
-      $sort: {
-        "_id.year": 1,
-        "_id.month": 1,
-      },
-    },
-  ]);
-  if (rawInitialSummary && rawInitialSummary.length) {
-    const initialSummary = rawInitialSummary.map((monthData) => {
-      const year = monthData._id.year;
-      const month =
-        monthData._id.month >= 10
-          ? monthData._id.month
-          : `0${monthData._id.month}`;
-      const totalAmount = monthData.totalAmount;
-
-      return {
-        [`${year}.${month}`]: { totalAmount },
-      };
-    });
-    return res.status(200).send({ initialSummary });
-  }
-  return res.status(404).send("No data");
-});
-
 router.route("/month/:year/:month").get(async (req, res) => {
   const userId = req.user["_id"];
   const { year, month } = req.params;
@@ -109,33 +104,35 @@ router.route("/month/:year/:month").get(async (req, res) => {
     return res.status(400).send("Missing param");
   }
 
-  const yearNum = parseInt(year);
-  const monthNum = parseInt(month);
+  const dateCurrentMonthString = `${year}-${month.padStart(2, "0")}`;
+  const dateNextMonth = new Date(`${year}-${month.padStart(2, "0")}`);
+  dateNextMonth.setMonth(dateNextMonth.getMonth() + 1);
 
-  const monthData = await Expense.aggregate([
-    {
-      $match: {
-        userId,
-        $expr: {
-          $and: [
-            { $eq: [{ $year: "$date" }, yearNum] },
-            { $eq: [{ $month: "$date" }, monthNum] },
-          ],
-        },
-      },
-    },
-    {
-      $group: {
-        _id: null,
-        items: { $push: "$$ROOT" },
-      },
-    },
-  ]);
+  const nextMonthDateString = `${dateNextMonth.getFullYear()}-${
+    dateNextMonth.getMonth() + 1
+  }`;
 
-  if (monthData?.[0]?.items) {
-    return res.status(200).send({ monthExpenses: monthData[0].items });
+  let expenses;
+
+  try {
+    expenses = await Expense.find({
+      userId,
+      date: { $gte: dateCurrentMonthString, $lte: nextMonthDateString },
+    });
+  } catch {
+    return res.status(500).send();
   }
-  return res.status(404).send("No data");
+
+  expenses.sort((expenseA, expenseB) => {
+    if (expenseA.date > expenseB.date) {
+      return -1;
+    }
+    return 0;
+  });
+
+  return res
+    .status(200)
+    .send({ [dateCurrentMonthString.replace("-", ".")]: expenses, categories });
 });
 
 export default router;

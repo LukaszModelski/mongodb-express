@@ -1,3 +1,4 @@
+import "core-js/stable/atob";
 import { useCallback, useState } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import { getJWT } from "../js/jwt";

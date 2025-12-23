@@ -27,16 +27,26 @@ import { addExpenseViewStyles } from "./AddExpenseView.styles";
 import { postNewExpense } from "../../js/api";
 import { validateAmount } from "../../js/utils";
 import { colors } from "../../vars/colors";
+import { handleAPIerror } from "../../js/api";
+import { validateJWTFronted } from "../../hooks/validateJWTFrontend";
 
 export const AddExpenseView = ({ navigation }) => {
   const dispatch = useDispatch();
   const expensesCategories = useSelector((state) => state.expensesCategories);
   const [isLoading, setIsLoading] = useState(false);
   const [amount, setAmount] = useState("");
-  const [category, setCategory] = useState(expensesCategories[0]);
+  const [category, setCategory] = useState();
   const [description, setDescription] = useState("");
   const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
   const [date, setDate] = useState(new Date());
+
+  validateJWTFronted(navigation);
+
+  useEffect(() => {
+    if (expensesCategories) {
+      setCategory(expensesCategories[0]);
+    }
+  }, [expensesCategories]);
 
   useFocusEffect(
     useCallback(() => {
@@ -44,15 +54,12 @@ export const AddExpenseView = ({ navigation }) => {
     }, [])
   );
 
-  useEffect(() => {
-    setCategory(expensesCategories[0]);
-  }, [expensesCategories]);
-
   const renderPickerItem = (item) => (
     <Picker.Item key={item} label={item} value={item} />
   );
 
-  const renderPickerList = (list) => list.map((item) => renderPickerItem(item));
+  const renderPickerList = (list) =>
+    list?.map((item) => renderPickerItem(item));
 
   const clearForm = () => {
     setAmount("");
@@ -80,7 +87,7 @@ export const AddExpenseView = ({ navigation }) => {
         dispatch(setNotificationSuccess(true));
         clearForm();
       } catch (error) {
-        console.error(error);
+        handleAPIerror(error, navigation);
         dispatch(setNotificationFail(true));
       } finally {
         setIsLoading(false);

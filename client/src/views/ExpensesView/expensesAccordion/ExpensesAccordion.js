@@ -5,8 +5,13 @@ import { PieChartIcon } from "../../../components/svg/PieChartIcon";
 import { ExpensesListItem } from "../expensesListItem/ExpensesListItem";
 import { Sorting } from "../sorting/Sorting";
 
-export const ExpensesAccrodion = ({ date, items, open, navigation }) => {
-  const [isOpen, setIsOpen] = useState(open);
+export const ExpensesAccrodion = ({
+  date,
+  items,
+  isAccordionOpen,
+  navigation,
+}) => {
+  const [isOpen, setIsOpen] = useState(isAccordionOpen);
 
   const calculateSum = (items) =>
     items.reduce((total, item) => total + item.amount, 0);
@@ -28,7 +33,7 @@ export const ExpensesAccrodion = ({ date, items, open, navigation }) => {
       <PieChartIcon
         size={18}
         style={accordionStyles.pieChartIcon}
-        onPress={() => navigation.navigate("ChartView", { date })}
+        onPress={() => navigation.navigate("ChartView", { date, items })}
       />
       {isOpen && (
         <View>

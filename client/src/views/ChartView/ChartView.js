@@ -7,10 +7,13 @@ import { viewStyles } from "../../styles/view.styles";
 import { utilStyles } from "../../styles/utils.styles";
 import { categoryColors } from "../../vars/colors";
 import { expensesArrayToObj } from "../../js/utils";
+import { validateJWTFronted } from "../../hooks/validateJWTFrontend";
 
 export const ChartView = ({ route, navigation }) => {
+  validateJWTFronted(navigation);
+
   const date = route.params.date;
-  const expenses = useSelector((state) => state.expenses[date]);
+  const expenses = route.params.items;
 
   const adaptDataForChart = (expenses) => {
     const expensesObj = expensesArrayToObj(expenses);

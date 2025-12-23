@@ -13,7 +13,7 @@ import {
   SET_NOTIFICATION_LOGIN_SUCCESS,
   SET_NOTIFICATION_LOGIN_FAIL,
   SET_NOTIFICATION_AMOUNT_REQUIRED,
-  SET_NOTIFICATION_EMAIL_AND_PASS_REQUIRED
+  SET_NOTIFICATION_EMAIL_AND_PASS_REQUIRED,
 } from "./actions";
 
 import {
@@ -22,15 +22,15 @@ import {
   objectDeepCopy,
   sortExpensesByPrice,
   sortExpensesByDate,
-  sortExpensesByCategory
+  sortExpensesByCategory,
 } from "../js/utils";
 
 const initialState = {
   expenses: {},
   expensesCategories: [],
   showNotification: {},
-  sum: false
-}
+  sum: false,
+};
 
 export function reducers(state = initialState, action) {
   switch (action.type) {
@@ -38,32 +38,32 @@ export function reducers(state = initialState, action) {
     case SET_EXPENSES: {
       return {
         ...state,
-        expenses: action.expenses
-      }
+        expenses: { ...action.expenses, ...state.expenses },
+      };
     }
     case ADD_EXPENSE: {
       return {
         ...state,
         expenses: appendExpense(state.expenses, action.expense),
-      }
+      };
     }
     case DELETE_EXPENSE: {
       return {
         ...state,
         expenses: deleteExpense(state.expenses, action.expense),
-      }
+      };
     }
     case SET_EXPENSES_CATEGORIES: {
       return {
         ...state,
-        expensesCategories: action.expensesCategories
-      }
+        expensesCategories: action.expensesCategories,
+      };
     }
     case SET_SUM: {
       return {
         ...state,
-        sum: action.sum
-      }
+        sum: action.sum,
+      };
     }
     case SORT_MONTH_EXPENSES_BY_DATE: {
       const newState = objectDeepCopy(state);
@@ -84,64 +84,64 @@ export function reducers(state = initialState, action) {
     case CLEAR_NOTIFICATIONS: {
       return {
         ...state,
-        showNotification: {}
-      }
+        showNotification: {},
+      };
     }
     case SET_NOTIFICATION_SUCCESS: {
       return {
         ...state,
         showNotification: {
           ...state.showNotification,
-          success: action.state
-        }
-      }
+          success: action.state,
+        },
+      };
     }
     case SET_NOTIFICATION_FAIL: {
       return {
         ...state,
         showNotification: {
           ...state.showNotification,
-          fail: action.state
-        }
-      }
+          fail: action.state,
+        },
+      };
     }
     case SET_NOTIFICATION_LOGIN_SUCCESS: {
       return {
         ...state,
         showNotification: {
           ...state.showNotification,
-          loginSuccess: action.state
-        }
-      }
+          loginSuccess: action.state,
+        },
+      };
     }
     case SET_NOTIFICATION_LOGIN_FAIL: {
       return {
         ...state,
         showNotification: {
           ...state.showNotification,
-          loginFail: action.state
-        }
-      }
+          loginFail: action.state,
+        },
+      };
     }
     case SET_NOTIFICATION_AMOUNT_REQUIRED: {
       return {
         ...state,
         showNotification: {
           ...state.showNotification,
-          amountRequired: action.state
-        }
-      }
+          amountRequired: action.state,
+        },
+      };
     }
     case SET_NOTIFICATION_EMAIL_AND_PASS_REQUIRED: {
       return {
         ...state,
         showNotification: {
           ...state.showNotification,
-          emailAndPassRequired: action.state
-        }
-      }
+          emailAndPassRequired: action.state,
+        },
+      };
     }
     default:
-      return state
+      return state;
   }
 }

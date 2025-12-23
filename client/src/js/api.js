@@ -5,7 +5,7 @@ const domain = "http://czapafunbox.ddns.net:8080/";
 // const domain = "https://expenses-sxp4.onrender.com/";
 // const domain = 'https://nodejs-expenses.herokuapp.com/';
 //expenses-sxp4.onrender.com/
-// const domain = 'http://localhost:3000/';
+// const domain = "http://localhost:3000/";
 
 export const handleAPIerror = (error, navigation) => {
   if (error.response && error.response.status === 401) {
@@ -25,6 +25,26 @@ export const fetchExpenses = async () => {
   return axios.get(`${domain}api/expense`, {
     params: { jwt: jwt },
   });
+};
+
+/**
+ * @function
+ * @param {String} year - ex. 2024, 2021
+ * @param {String} month - ex. 12, 3, 1
+ * @returns {Array} Expenses list for the month
+ */
+const fetchMonthExpenses = async (year, month) => {
+  const jwt = await getJWT();
+  return axios.get(`${domain}api/expense/month/${year}/${month}`, {
+    params: { jwt: jwt },
+  });
+};
+
+export const fetchCurrnetMonthExpenses = async () => {
+  const date = new Date();
+  let month = date.getMonth() + 1;
+  const year = date.getFullYear();
+  return await fetchMonthExpenses(year, month);
 };
 
 export const postNewExpense = async (

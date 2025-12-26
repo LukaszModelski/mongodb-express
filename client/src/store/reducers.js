@@ -25,12 +25,7 @@ import {
   sortExpensesByCategory,
 } from "../js/utils";
 
-const initialState = {
-  expenses: {},
-  expensesCategories: [],
-  showNotification: {},
-  sum: false,
-};
+import { initialState } from "./initialState";
 
 export function reducers(state = initialState, action) {
   switch (action.type) {

@@ -1,4 +1,5 @@
 import {
+  SET_IS_USER_SIGNED_IN,
   SET_EXPENSES,
   ADD_EXPENSE,
   DELETE_EXPENSE,
@@ -29,6 +30,13 @@ import { initialState } from "./initialState";
 
 export function reducers(state = initialState, action) {
   switch (action.type) {
+    // user
+    case SET_IS_USER_SIGNED_IN: {
+      return {
+        ...state,
+        isUserSignedIn: action.isUserSignedIn,
+      };
+    }
     // expenses
     case SET_EXPENSES: {
       return {

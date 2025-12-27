@@ -3,6 +3,5 @@ export const initialState = {
   expensesCategories: [],
   showNotification: {},
   sum: false,
-  isAppLoading: true,
   isUserSignedIn: undefined,
 };

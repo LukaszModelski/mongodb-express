@@ -1,36 +1,24 @@
-import "core-js/stable/atob";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useFocusEffect } from "@react-navigation/native";
-import { getJWT } from "../js/jwt";
-import { jwtDecode } from "jwt-decode";
+import { getJWT, checkJWTValid } from "../js/jwt";
+import { useDispatch } from "react-redux";
+import { setIsUserSignedIn } from "../store/actions";
 
-export const validateJWTFronted = (navigation) => {
-  const [isValid, setIsValid] = useState(false);
+export const validateJWTFronted = () => {
+  const dispatch = useDispatch();
 
   useFocusEffect(
     useCallback(() => {
-      const check = async () => {
+      const verifyUser = async () => {
         const token = await getJWT();
         if (!token) {
-          navigation.navigate("LoginView");
+          dispatch(setIsUserSignedIn(false));
           return;
         }
-
-        try {
-          const { exp } = jwtDecode(token);
-          if (Date.now() >= exp * 1000) {
-            navigation.navigate("LoginView");
-          }
-          setIsValid(true);
-        } catch (err) {
-          console.error(err);
-          navigation.navigate("LoginView");
-        }
+        const isJWTValid = checkJWTValid(token);
+        dispatch(setIsUserSignedIn(isJWTValid));
       };
-
-      check();
-    }, [navigation])
+      verifyUser();
+    }, [])
   );
-
-  return isValid;
 };

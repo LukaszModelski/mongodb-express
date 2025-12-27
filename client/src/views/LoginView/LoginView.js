@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { View, TextInput, Button } from "react-native";
 import {
+  setIsUserSignedIn,
   setNotificationEmailAndPassRequired,
   setNotificationFail,
   setNotificationLoginFail,
@@ -13,7 +14,7 @@ import { loginUser } from "../../js/api";
 import { viewStyles } from "../../styles/view.styles";
 import { loginViewStyles } from "./LoginView.styles";
 
-export const LoginView = ({ navigation }) => {
+export const LoginView = () => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -24,7 +25,7 @@ export const LoginView = ({ navigation }) => {
       try {
         const res = await loginUser(email, password);
         await saveJWT(res.data.token);
-        navigation.navigate("ExpensesView");
+        dispatch(setIsUserSignedIn(true));
       } catch (error) {
         console.error(error);
         if (error.response && error.response.status === 401) {

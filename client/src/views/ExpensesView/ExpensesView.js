@@ -23,27 +23,25 @@ export const ExpensesView = ({ navigation }) => {
   const expensesStore = useSelector((state) => state.expenses);
   const [isLoadingFirstMonth, setIsLoadingFirstMonth] = useState(true);
 
-  const isJwtValid = validateJWTFronted(navigation);
+  validateJWTFronted();
 
   useEffect(() => {
-    if (isJwtValid) {
-      const initExpenses = async () => {
-        try {
-          const response = await fetchCurrnetMonthExpenses();
-          dispatch(setExpenses(response.data.data));
-          dispatch(setExpensesCategories(response.data.categories));
-        } catch (error) {
-          handleAPIerror(error, navigation);
-        } finally {
-          setIsLoadingFirstMonth(false);
-        }
-      };
-      initExpenses();
-    }
-  }, [isJwtValid]);
+    const initExpenses = async () => {
+      try {
+        const response = await fetchCurrnetMonthExpenses();
+        dispatch(setExpenses(response.data.data));
+        dispatch(setExpensesCategories(response.data.categories));
+      } catch (error) {
+        handleAPIerror(error, navigation);
+      } finally {
+        setIsLoadingFirstMonth(false);
+      }
+    };
+    initExpenses();
+  }, []);
 
   useEffect(() => {
-    if (isJwtValid && !isLoadingFirstMonth) {
+    if (!isLoadingFirstMonth) {
       const initExpenses = async () => {
         try {
           const response = await fetchExpenses();
@@ -55,7 +53,7 @@ export const ExpensesView = ({ navigation }) => {
       };
       initExpenses();
     }
-  }, [isLoadingFirstMonth, isJwtValid]);
+  }, [isLoadingFirstMonth]);
 
   useFocusEffect(
     useCallback(() => {
@@ -73,8 +71,6 @@ export const ExpensesView = ({ navigation }) => {
         isAccordionOpen={i === 0}
       />
     ));
-
-  if (!isJwtValid) return;
 
   return (
     <View style={viewStyles.container}>

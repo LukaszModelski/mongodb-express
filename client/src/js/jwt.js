@@ -1,3 +1,5 @@
+import "core-js/stable/atob";
+import { jwtDecode } from "jwt-decode";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import cookie from "cookie";
 import { isNative } from "./utils";
@@ -7,6 +9,19 @@ export const getJWT = async () => {
     return await getJWTFromNative();
   } else {
     return getJWTFromWebCookies();
+  }
+};
+
+export const checkJWTValid = (jwt) => {
+  try {
+    const { exp } = jwtDecode(jwt);
+    if (Date.now() >= exp * 1000) {
+      return false;
+    }
+    return true;
+  } catch (err) {
+    console.error(err);
+    return false;
   }
 };
 

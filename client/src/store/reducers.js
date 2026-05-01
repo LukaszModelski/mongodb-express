@@ -5,9 +5,6 @@ import {
   DELETE_EXPENSE,
   SET_EXPENSES_CATEGORIES,
   SET_SUM,
-  SORT_MONTH_EXPENSES_BY_PRICE,
-  SORT_MONTH_EXPENSES_BY_DATE,
-  SORT_MONTH_EXPENSES_BY_CATEGORY,
   CLEAR_NOTIFICATIONS,
   SET_NOTIFICATION_SUCCESS,
   SET_NOTIFICATION_FAIL,
@@ -17,14 +14,7 @@ import {
   SET_NOTIFICATION_EMAIL_AND_PASS_REQUIRED,
 } from "./actions";
 
-import {
-  appendExpense,
-  deleteExpense,
-  objectDeepCopy,
-  sortExpensesByPrice,
-  sortExpensesByDate,
-  sortExpensesByCategory,
-} from "../js/utils";
+import { appendExpense, deleteExpense } from "../js/utils";
 
 import { initialState } from "./initialState";
 
@@ -67,21 +57,6 @@ export function reducers(state = initialState, action) {
         ...state,
         sum: action.sum,
       };
-    }
-    case SORT_MONTH_EXPENSES_BY_DATE: {
-      const newState = objectDeepCopy(state);
-      sortExpensesByDate(newState.expenses[action.month]);
-      return newState;
-    }
-    case SORT_MONTH_EXPENSES_BY_PRICE: {
-      const newState = objectDeepCopy(state);
-      sortExpensesByPrice(newState.expenses[action.month]);
-      return newState;
-    }
-    case SORT_MONTH_EXPENSES_BY_CATEGORY: {
-      const newState = objectDeepCopy(state);
-      sortExpensesByCategory(newState.expenses[action.month]);
-      return newState;
     }
     // notifications
     case CLEAR_NOTIFICATIONS: {

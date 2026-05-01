@@ -30,18 +30,6 @@ export const formatDate = (dateString) => {
  */
 export const validateAmount = (amount) => /^[0-9]+$/.test(amount); // accepts only solid numbers
 
-export const sortExpensesByDate = (expenses) => {
-  expenses.sort((exp1, exp2) => (exp1.date < exp2.date ? 1 : -1));
-};
-
-export const sortExpensesByPrice = (expenses) => {
-  expenses.sort((exp1, exp2) => (exp1.amount < exp2.amount ? 1 : -1));
-};
-
-export const sortExpensesByCategory = (expenses) => {
-  expenses.sort((exp1, exp2) => (exp1.category < exp2.category ? 1 : -1));
-};
-
 export const expensesArrayToObj = (expenses) =>
   expenses.reduce((prev, curr) => {
     prev[curr.category] = (prev[curr.category] || 0) + curr.amount;
@@ -62,7 +50,6 @@ export const appendExpense = (expensesObj, newExpense) => {
   } else {
     deepCopy[formatedDate] = [newExpense];
   }
-  sortExpensesByDate(deepCopy[formatedDate]);
   return deepCopy;
 };
 
@@ -78,7 +65,7 @@ export const deleteExpense = (expensesObj, expToDelete) => {
   return {
     ...deepCopy,
     [formatedDate]: deepCopy[formatedDate].filter(
-      (exp) => exp.date !== expToDelete.date
+      (exp) => exp.date !== expToDelete.date,
     ),
   };
 };

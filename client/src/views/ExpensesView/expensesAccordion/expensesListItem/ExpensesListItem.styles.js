@@ -1,16 +1,16 @@
-import { StyleSheet } from 'react-native';
-import { colors } from "../../../vars/colors";
+import { StyleSheet } from "react-native";
+import { colors } from "../../../../vars/colors";
 
 export const listItemStyles = StyleSheet.create({
   listItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
     marginBottom: 10,
   },
   descriptionContainer: {
     flexShrink: 1,
-    flexDirection: 'row',
+    flexDirection: "row",
     paddingRight: 10,
   },
   amount: {
@@ -25,31 +25,31 @@ export const listItemStyles = StyleSheet.create({
   },
   data: {
     flexShrink: 0,
-    color: colors.gray
+    color: colors.gray,
   },
   textBlue: {
     color: colors.blue,
-    fontWeight: '700'
+    fontWeight: "700",
   },
   editPanel: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
-    textAlign: 'right',
-    backgroundColor: '#fff',
+    textAlign: "right",
+    backgroundColor: "#fff",
     width: 70,
-    backgroundColor: 'red',
+    backgroundColor: "red",
     borderRadius: 3,
     paddingVertical: 2,
     paddingHorizontal: 5,
   },
   editPanelOpen: {
-    right: 0
+    right: 0,
   },
   editPanelClose: {
-    right: -100
+    right: -100,
   },
   editPanelText: {
-    color: '#fff',
-    textAlign: 'center'
-  }
+    color: "#fff",
+    textAlign: "center",
+  },
 });

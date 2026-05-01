@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { View, Button, ScrollView, ActivityIndicator } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
-import { ExpensesAccrodion } from "./expensesAccordion/ExpensesAccordion";
+import { ExpensesAccordion } from "./expensesAccordion/ExpensesAccordion";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setExpenses,
@@ -58,19 +58,21 @@ export const ExpensesView = ({ navigation }) => {
   useFocusEffect(
     useCallback(() => {
       return () => dispatch(clearNotifications());
-    }, [])
+    }, []),
   );
 
   const Accordions = ({ expenses }) =>
-    Object.entries(expenses).map((entry, i) => (
-      <ExpensesAccrodion
-        navigation={navigation}
-        date={entry[0]}
-        items={entry[1]}
-        key={entry[0]}
-        isAccordionOpen={i === 0}
-      />
-    ));
+    Object.keys(expenses)
+      .sort((a, b) => (a >= b ? -1 : 1))
+      .map((date, i) => (
+        <ExpensesAccordion
+          key={date}
+          navigation={navigation}
+          date={date}
+          items={expenses[date]}
+          isAccordionOpen={i === 0}
+        />
+      ));
 
   return (
     <View style={viewStyles.container}>

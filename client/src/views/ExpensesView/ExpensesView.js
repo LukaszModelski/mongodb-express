@@ -32,7 +32,7 @@ export const ExpensesView = ({ navigation }) => {
         dispatch(setExpenses(response.data.data));
         dispatch(setExpensesCategories(response.data.categories));
       } catch (error) {
-        handleAPIerror(error, navigation);
+        handleAPIerror(error, dispatch);
       } finally {
         setIsLoadingFirstMonth(false);
       }
@@ -48,7 +48,7 @@ export const ExpensesView = ({ navigation }) => {
           const expenses = response.data.expensesByMonth;
           dispatch(setExpenses(expenses));
         } catch (error) {
-          handleAPIerror(error, navigation);
+          handleAPIerror(error, dispatch);
         }
       };
       initExpenses();

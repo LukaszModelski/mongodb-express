@@ -30,7 +30,7 @@ import { colors } from "../../vars/colors";
 import { handleAPIerror } from "../../js/api";
 import { validateJWTFronted } from "../../hooks/validateJWTFrontend";
 
-export const AddExpenseView = ({ navigation }) => {
+export const AddExpenseView = () => {
   const dispatch = useDispatch();
   const expensesCategories = useSelector((state) => state.expensesCategories);
   const [isLoading, setIsLoading] = useState(false);
@@ -40,7 +40,7 @@ export const AddExpenseView = ({ navigation }) => {
   const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
   const [date, setDate] = useState(new Date());
 
-  validateJWTFronted(navigation);
+  validateJWTFronted();
 
   useEffect(() => {
     if (expensesCategories) {
@@ -87,7 +87,7 @@ export const AddExpenseView = ({ navigation }) => {
         dispatch(setNotificationSuccess(true));
         clearForm();
       } catch (error) {
-        handleAPIerror(error, navigation);
+        handleAPIerror(error, dispatch);
         dispatch(setNotificationFail(true));
       } finally {
         setIsLoading(false);

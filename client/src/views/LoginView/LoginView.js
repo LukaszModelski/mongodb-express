@@ -9,7 +9,6 @@ import {
   clearNotifications,
 } from "../../store/actions";
 import { Notifications } from "../../components/notifications/Notifications";
-import { saveJWT } from "../../js/jwt";
 import { loginUser } from "../../js/api";
 import { viewStyles } from "../../styles/view.styles";
 import { loginViewStyles } from "./LoginView.styles";
@@ -23,8 +22,7 @@ export const LoginView = () => {
     dispatch(clearNotifications());
     if (email && password) {
       try {
-        const res = await loginUser(email, password);
-        await saveJWT(res.data.token);
+        await loginUser(email, password);
         dispatch(setIsUserSignedIn(true));
       } catch (error) {
         console.error(error);

@@ -9,8 +9,8 @@ import { categoryColors } from "../../vars/colors";
 import { expensesArrayToObj } from "../../js/utils";
 import { validateJWTFronted } from "../../hooks/validateJWTFrontend";
 
-export const ChartView = ({ route, navigation }) => {
-  validateJWTFronted(navigation);
+export const ChartView = ({ route }) => {
+  validateJWTFronted();
 
   const date = route.params.date;
   const expenses = route.params.items;

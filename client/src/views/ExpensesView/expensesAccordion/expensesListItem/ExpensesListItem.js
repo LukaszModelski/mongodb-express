@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { deleteExpense } from "../../../../store/actions";
 import { View, Text, TouchableOpacity } from "react-native";
 import { listItemStyles } from "./ExpensesListItem.styles";
-import { deleteExpenseApi } from "../../../../js/api";
+import { deleteExpenseApi, handleAPIerror } from "../../../../js/api";
 
 export const ExpensesListItem = ({ item }) => {
   const dispatch = useDispatch();
@@ -18,7 +18,7 @@ export const ExpensesListItem = ({ item }) => {
       const deletedExpense = await deleteExpenseApi(item._id);
       dispatch(deleteExpense(deletedExpense.data.removed));
     } catch (error) {
-      console.error(error);
+      handleAPIerror(error, dispatch);
     }
   };
 

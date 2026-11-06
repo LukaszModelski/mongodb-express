@@ -8,7 +8,7 @@ import { LoginView } from "./views/LoginView/LoginView";
 import { useDispatch, useSelector } from "react-redux";
 import { SplashView } from "./views/SplashView/SplashView";
 import { setIsUserSignedIn } from "./store/actions";
-import { getJWT, checkJWTValid } from "./js/jwt";
+import { restoreSession } from "./js/api";
 
 const Stack = createStackNavigator();
 
@@ -19,14 +19,8 @@ export const Navigation = () => {
 
   useEffect(() => {
     const verifyUser = async () => {
-      const token = await getJWT();
-      if (!token) {
-        dispatch(setIsUserSignedIn(false));
-        setIsVerifyingUser(false);
-        return;
-      }
-      const isJWTValid = checkJWTValid(token);
-      dispatch(setIsUserSignedIn(isJWTValid));
+      const hasSession = await restoreSession();
+      dispatch(setIsUserSignedIn(hasSession));
       setIsVerifyingUser(false);
     };
     verifyUser();

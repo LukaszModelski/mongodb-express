@@ -1,8 +1,8 @@
 import { useCallback } from "react";
 import { useFocusEffect } from "@react-navigation/native";
-import { getJWT, checkJWTValid } from "../js/jwt";
 import { useDispatch } from "react-redux";
 import { setIsUserSignedIn } from "../store/actions";
+import { restoreSession } from "../js/api";
 
 export const validateJWTFronted = () => {
   const dispatch = useDispatch();
@@ -10,13 +10,8 @@ export const validateJWTFronted = () => {
   useFocusEffect(
     useCallback(() => {
       const verifyUser = async () => {
-        const token = await getJWT();
-        if (!token) {
-          dispatch(setIsUserSignedIn(false));
-          return;
-        }
-        const isJWTValid = checkJWTValid(token);
-        dispatch(setIsUserSignedIn(isJWTValid));
+        const hasSession = await restoreSession();
+        dispatch(setIsUserSignedIn(hasSession));
       };
       verifyUser();
     }, [])

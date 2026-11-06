@@ -1,86 +1,163 @@
-import { Router } from 'express';
-import bcryptjs from 'bcryptjs';
+import { Router } from "express";
+import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { User } from './user.model';
+import { User } from "./user.model";
 
 import { validateEmail } from "../../utils/validateEmail";
+import {
+  getAuthTokens,
+  hashRefreshToken,
+  clearRefreshTokenFromUser,
+} from "../../utils/tokens";
 
 const router = Router();
 
-router
-  .route('/signup')
-  .post(async (req, res) => {
-    const email = req.body.email;
-    const password = req.body.password;
-    if(email && password) {
-      if(!validateEmail(email)) {
-        return res.status(409).send({message: 'Wrong email format'}).end();
-      }
-      try {
-        const user = await User.findOne({email: email});
-        if(user) {
-          return res.status(409).send({message: 'User with that email alredy exist.'}).end();
-        }
-        const hasedPassword = await bcryptjs.hash(password, 10);
-        const newUser = await User.create({email, password: hasedPassword});
-        return res
-          .status(201)
-          .send({
-            newUser: {
-              _id: newUser._id,
-              email: newUser.email
-            },
-            message: 'New user created succesfully.'
-          })
-          .end();
-      } catch (err) {
-        console.error(err);
-      }
-    } else {
-      res.status(400).send({message: 'email or password missing in request.'}).end();
+router.route("/signup").post(async (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+  if (!email || !password) {
+    return res.status(400).send({ message: "email or password missing in request." }).end();
+  }
+  if (!validateEmail(email)) {
+    return res.status(409).send({ message: "Wrong email format" }).end();
+  }
+  try {
+    const user = await User.findOne({ email: email });
+    if (user) {
+      return res
+        .status(409)
+        .send({ message: "User with that email alredy exist." })
+        .end();
     }
-  });
+    const hasedPassword = await bcryptjs.hash(password, 10);
+    const newUser = await User.create({ email, password: hasedPassword });
+    return res
+      .status(201)
+      .send({
+        newUser: {
+          _id: newUser._id,
+          email: newUser.email,
+        },
+        message: "New user created succesfully.",
+      })
+      .end();
+  } catch (err) {
+    console.error(err);
+  }
+});
 
-router
-  .route('/login')
-  .post(async (req, res) => {
-    const email = req.body.email;
-    const password = req.body.password;
-    if(email && password) {
-      let passwordMatch = false;
-      try {
-        const user = await User.findOne({email: email});
-        if(user) {
-          passwordMatch = await bcryptjs.compare(password, user.password);
-        }
-        if(user && passwordMatch) {
-          const unsignedToken = {
-            user: {
-              _id: user._id,
-              email: user.email
-            }
-          }
-          const signedToken = jwt.sign(unsignedToken, process.env.JWT_SECRET, { expiresIn: "10h" });
-          return res
-            .status(200)
-            .send({
-              user: {
-                _id: user._id,
-                email: user.email
-              },
-              token: signedToken,
-              message: 'Login succesfull.'
-            })
-            .end();
-        } else {
-          res.status(401).send({message: 'Authentication failed.'}).end();
-        }
-      } catch (err) {
-        console.error(err);
-      }
-    } else {
-      res.status(400).send({message: 'email or password missing in request.'}).end();
+router.route("/login").post(async (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+  if (!email || !password) {
+    return res.status(400).send({ message: "email or password missing in request." }).end();
+  }
+
+  try {
+    const user = await User.findOne({ email: email });
+    if (!user) {
+      return res.status(401).send({ message: "Authentication failed." }).end();
     }
-  });
+
+    const passwordMatch = await bcryptjs.compare(password, user.password);
+    if (!passwordMatch) {
+      return res.status(401).send({ message: "Authentication failed." }).end();
+    }
+
+    const tokens = await getAuthTokens(user);
+    return res
+      .status(200)
+      .send({
+        user: {
+          _id: user._id,
+          email: user.email,
+        },
+        token: tokens.token,
+        refreshToken: tokens.refreshToken,
+        message: "Login succesfull.",
+      })
+      .end();
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+router.route("/refresh").post(async (req, res) => {
+  const refreshToken = req.body.refreshToken;
+  if (!refreshToken) {
+    return res.status(400).send({ message: "refreshToken missing in request." }).end();
+  }
+
+  try {
+    const user = await User.findOne({
+      refreshTokenHash: hashRefreshToken(refreshToken),
+    });
+
+    if (
+      !user ||
+      !user.refreshTokenExpiresAt ||
+      user.refreshTokenExpiresAt.getTime() <= Date.now()
+    ) {
+      if (user) {
+        await clearRefreshTokenFromUser(user);
+      }
+      return res.status(401).send({ message: "Invalid or expired refresh token." }).end();
+    }
+
+    const tokens = await getAuthTokens(user);
+    return res
+      .status(200)
+      .send({
+        user: {
+          _id: user._id,
+          email: user.email,
+        },
+        token: tokens.token,
+        refreshToken: tokens.refreshToken,
+        message: "Token refreshed.",
+      })
+      .end();
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send({ message: "Could not refresh token." }).end();
+  }
+});
+
+router.route("/revoke").post(async (req, res) => {
+  const refreshToken = req.body.refreshToken;
+  const encodedJWT = req.query.jwt;
+
+  try {
+    if (refreshToken) {
+      const user = await User.findOne({
+        refreshTokenHash: hashRefreshToken(refreshToken),
+      });
+      if (user) {
+        await clearRefreshTokenFromUser(user);
+      }
+      return res.status(200).send({ message: "Refresh token revoked." }).end();
+    }
+
+    if (encodedJWT) {
+      const decoded = jwt.verify(encodedJWT, process.env.JWT_SECRET);
+      const user = await User.findById(decoded.user._id);
+      if (user) {
+        await clearRefreshTokenFromUser(user);
+      }
+      return res.status(200).send({ message: "Refresh token revoked." }).end();
+    }
+
+    return res
+      .status(400)
+      .send({ message: "refreshToken or jwt missing in request." })
+      .end();
+  } catch (err) {
+    if (err.name === "JsonWebTokenError" || err.name === "TokenExpiredError") {
+      return res.status(401).send({ message: "Wrong or outdated JWT" }).end();
+    }
+    console.error(err);
+    return res.status(500).send({ message: "Could not revoke refresh token." }).end();
+  }
+});
 
 export default router;

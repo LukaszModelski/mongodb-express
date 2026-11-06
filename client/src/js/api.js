@@ -1,5 +1,12 @@
 import axios from "axios";
-import { getJWT } from "./jwt";
+import { setIsUserSignedIn } from "../store/actions";
+import {
+  getJWT,
+  getRefreshToken,
+  saveAuthTokens,
+  clearAuthTokens,
+  checkJWTValid,
+} from "./jwt";
 
 const domain = "http://czapafunbox.ddns.net:8080/";
 // const domain = "https://expenses-sxp4.onrender.com/";
@@ -7,24 +14,131 @@ const domain = "http://czapafunbox.ddns.net:8080/";
 //expenses-sxp4.onrender.com/
 // const domain = "http://localhost:3000/";
 
-export const handleAPIerror = (error, navigation) => {
-  if (error.response && error.response.status === 401) {
-    navigation.navigate("LoginView");
-    console.info("Redirecting to login page");
+let refreshInFlight = null;
+
+const refreshAccessToken = () => {
+  if (refreshInFlight) {
+    return refreshInFlight;
+  }
+
+  refreshInFlight = (async () => {
+    const refreshToken = await getRefreshToken();
+    if (!refreshToken) {
+      throw new Error("No refresh token");
+    }
+
+    const res = await axios.post(`${domain}api/user/refresh`, {
+      refreshToken,
+    });
+    if (!res.data?.token || !res.data?.refreshToken) {
+      throw new Error("Auth response is missing tokens");
+    }
+    await saveAuthTokens(res.data.token, res.data.refreshToken);
+    return res.data.token;
+  })().finally(() => {
+    refreshInFlight = null;
+  });
+
+  return refreshInFlight;
+};
+
+export const restoreSession = async () => {
+  const accessToken = await getJWT();
+  if (accessToken && checkJWTValid(accessToken)) {
+    return true;
+  }
+
+  try {
+    await refreshAccessToken();
+    return true;
+  } catch (error) {
+    if (isAuthFailure(error)) {
+      await clearAuthTokens();
+      return false;
+    }
+    // Network/server problem: we can't tell if the session is dead, so keep it.
+    console.error(error);
+    return true;
+  }
+};
+
+const authorizedRequest = async (config) => {
+  let accessToken = await getJWT();
+  if (!accessToken || !checkJWTValid(accessToken)) {
+    accessToken = await refreshAccessToken();
+  }
+
+  const send = (token) =>
+    axios({ ...config, params: { ...(config.params || {}), jwt: token } });
+
+  try {
+    return await send(accessToken);
+  } catch (error) {
+    if (!error.response || error.response.status !== 401) {
+      throw error;
+    }
+    try {
+      accessToken = await refreshAccessToken();
+    } catch (retryError) {
+      if (isAuthFailure(retryError)) {
+        await clearAuthTokens();
+        throw error;
+      }
+      // Network/server problem during refresh: don't log the user out.
+      throw retryError;
+    }
+    return send(accessToken);
+  }
+};
+
+const isAuthFailure = (error) =>
+  (error.response && error.response.status === 401) ||
+  error.message === "No refresh token";
+
+export const handleAPIerror = async (error, dispatch) => {
+  if (isAuthFailure(error)) {
+    await clearAuthTokens();
+    dispatch(setIsUserSignedIn(false));
+    console.info("Session expired, redirecting to login");
   } else {
     console.error(error);
   }
 };
 
-export const loginUser = (email, password) => {
-  return axios.post(`${domain}api/user/login`, { email, password });
+export const loginUser = async (email, password) => {
+  const res = await axios.post(`${domain}api/user/login`, {
+    email,
+    password,
+  });
+  if (!res.data?.token || !res.data?.refreshToken) {
+    throw new Error("Auth response is missing tokens");
+  }
+  await saveAuthTokens(res.data.token, res.data.refreshToken);
+  return res;
+};
+
+export const revokeRefreshToken = async ({
+  refreshToken,
+  accessToken,
+} = {}) => {
+  const tokenToRevoke = refreshToken || (await getRefreshToken());
+  const jwt = accessToken || (await getJWT());
+
+  if (tokenToRevoke) {
+    return axios.post(`${domain}api/user/revoke`, {
+      refreshToken: tokenToRevoke,
+    });
+  }
+
+  if (jwt) {
+    return axios.post(`${domain}api/user/revoke`, {}, { params: { jwt } });
+  }
+
+  throw new Error("No refresh token or access token to revoke");
 };
 
 export const fetchExpenses = async () => {
-  const jwt = await getJWT();
-  return axios.get(`${domain}api/expense`, {
-    params: { jwt: jwt },
-  });
+  return authorizedRequest({ method: "get", url: `${domain}api/expense` });
 };
 
 /**
@@ -34,9 +148,9 @@ export const fetchExpenses = async () => {
  * @returns {Array} Expenses list for the month
  */
 const fetchMonthExpenses = async (year, month) => {
-  const jwt = await getJWT();
-  return axios.get(`${domain}api/expense/month/${year}/${month}`, {
-    params: { jwt: jwt },
+  return authorizedRequest({
+    method: "get",
+    url: `${domain}api/expense/month/${year}/${month}`,
   });
 };
 
@@ -51,25 +165,19 @@ export const postNewExpense = async (
   amount,
   category,
   description,
-  dateString
+  dateString,
 ) => {
-  return axios.post(
-    `${domain}api/expense`,
-    {
-      amount,
-      category,
-      description,
-      dateString,
-    },
-    {
-      params: { jwt: await getJWT() },
-    }
-  );
+  return authorizedRequest({
+    method: "post",
+    url: `${domain}api/expense`,
+    data: { amount, category, description, dateString },
+  });
 };
 
 export const deleteExpenseApi = async (id) => {
-  return axios.delete(`${domain}api/expense`, {
+  return authorizedRequest({
+    method: "delete",
+    url: `${domain}api/expense`,
     data: { id },
-    params: { jwt: await getJWT() },
   });
 };

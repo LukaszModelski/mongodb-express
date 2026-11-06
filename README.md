@@ -43,6 +43,29 @@ Import to mongoDB:
 
 - **mongoimport --uri mongodb+srv://lukasz:PASSWORD@firstcluster.0e7cs.mongodb.net/testDatabase --collection testCollection --type json --file users.json** - imports data from users.json to testCollection of testDatabase
 
+## Raspberry PI
+
+- remote connection `ssh pi@<ip>` or `ssh pi@raspberrypi`
+- run NoIP Dynamic Update CLient `noip-duc -u <username> -p <password> -g czapafunbox.ddns.net --check-interval 5m`
+- opening rbp terminal remotely with command:
+  - connect to rbp through ssh
+  - `export DISPLAY=:0` - chooses the first rbp display
+  - to run DUC: `nohup lxterminal -e bash -c "noip-duc -u 7zqgx2z -p qTCgP48pxNZG -g czapafunbox.ddns.net --check-interval 5m" &`
+  - to run expenses backend: `nohup lxterminal -e bash -c "cd /home/pi/Desktop/mongodb-express/server && /home/pi/.nvm/versions/node/v23.0.0/bin/node ./dist/index.js" &`
+  - raspberry PI autostart file `/home/pi/.config/lxsession/LXDE-pi/autostart`
+
+## Additional info
+
+### JSDoc
+
+Docs: https://jsdoc.app/about-getting-started.html  
+If you want to run JSDoc for particural file:
+
+- `jsdoc ./client/src/js/utils.js`
+- it will generate `out/` directory with docs
+
+<del>
+
 ### Heroku
 
 You can see logs locally with `heroku logs --tail` command from `./server/dist/`.
@@ -64,22 +87,4 @@ Docs: https://devcenter.heroku.com/articles/git
 - Configuration **Procfile** defines the command to start server in node.
 - There must be at least empty package.json file to let Heroku know this is node.js app.
 
-## Raspberry PI
-
-- remote connection `ssh pi@<ip>` or `ssh pi@raspberrypi`
-- run NoIP Dynamic Update CLient `noip-duc -u <username> -p <password> -g czapafunbox.ddns.net --check-interval 5m`
-- opening rbp terminal remotely with command:
-  - connect to rbp through ssh
-  - `export DISPLAY=:0` - chooses the first rbp display
-  - to run DUC: `nohup lxterminal -e bash -c "noip-duc -u 7zqgx2z -p qTCgP48pxNZG -g czapafunbox.ddns.net --check-interval 5m" &`
-  - to run expenses backend: `nohup lxterminal -e bash -c "cd /home/pi/Desktop/mongodb-express/server && /home/pi/.nvm/versions/node/v23.0.0/bin/node ./dist/index.js" &`
-
-## Additional info
-
-### JSDoc
-
-Docs: https://jsdoc.app/about-getting-started.html  
-If you want to run JSDoc for particural file:
-
-- `jsdoc ./client/src/js/utils.js`
-- it will generate `out/` directory with docs
+</del>

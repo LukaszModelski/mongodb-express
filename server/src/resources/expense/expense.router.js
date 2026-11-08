@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { Expense, categories } from "./expense.model";
+import { logError } from "../../utils/logger";
 
 const router = Router();
 
@@ -62,7 +63,7 @@ router
         });
         return res.status(201).send({ expense });
       } catch (err) {
-        console.error(err);
+        logError(err, "expense.create");
         return res
           .status(400)
           .send({ message: "Probably wrong category value." });
@@ -88,7 +89,7 @@ router
             .send({ message: "Resource with provided id was not found." });
         }
       } catch (err) {
-        console.error(err);
+        logError(err, "expense.delete");
         return res.status(400).send({ message: "Something went wrong." });
       }
     } else {
@@ -119,7 +120,8 @@ router.route("/month/:year/:month").get(async (req, res) => {
       userId,
       date: { $gte: dateCurrentMonthString, $lte: nextMonthDateString },
     });
-  } catch {
+  } catch (err) {
+    logError(err, "expense.monthList");
     return res.status(500).send();
   }
 

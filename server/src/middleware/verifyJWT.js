@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import { logWarning } from "../utils/logger";
 
 /*
  * Decided to pass JWT in request param (not by cookies) because of native behaviour of Android and iOS.
@@ -11,6 +12,7 @@ export const verifyJWT = (req, res, next) => {
       req.user = decoded.user;
       next();
     } catch (err) {
+      logWarning("Rejected JWT", { reason: err.name });
       res.status(401).send({ message: "Wrong or outdated JWT" }).end();
     }
   } else {

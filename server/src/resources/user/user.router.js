@@ -2,6 +2,7 @@ import { Router } from "express";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { User } from "./user.model";
+import { logError } from "../../utils/logger";
 
 import { validateEmail } from "../../utils/validateEmail";
 import {
@@ -42,7 +43,7 @@ router.route("/signup").post(async (req, res) => {
       })
       .end();
   } catch (err) {
-    console.error(err);
+    logError(err, "user.signup");
   }
 });
 
@@ -78,7 +79,7 @@ router.route("/login").post(async (req, res) => {
       })
       .end();
   } catch (err) {
-    console.error(err);
+    logError(err, "user.login");
   }
 });
 
@@ -118,7 +119,7 @@ router.route("/refresh").post(async (req, res) => {
       })
       .end();
   } catch (err) {
-    console.error(err);
+    logError(err, "user.refresh");
     return res.status(500).send({ message: "Could not refresh token." }).end();
   }
 });
@@ -155,7 +156,7 @@ router.route("/revoke").post(async (req, res) => {
     if (err.name === "JsonWebTokenError" || err.name === "TokenExpiredError") {
       return res.status(401).send({ message: "Wrong or outdated JWT" }).end();
     }
-    console.error(err);
+    logError(err, "user.revoke");
     return res.status(500).send({ message: "Could not revoke refresh token." }).end();
   }
 });

@@ -65,6 +65,9 @@ router.route("/login").post(async (req, res) => {
       return res.status(401).send({ message: "Authentication failed." }).end();
     }
 
+    // Lets requestLogger attach the userId to this request's log entry.
+    res.locals.userId = String(user._id);
+
     const tokens = await getAuthTokens(user);
     return res
       .status(200)

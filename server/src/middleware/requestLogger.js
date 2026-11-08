@@ -14,7 +14,7 @@ export const requestLogger = (req, res, next) => {
       path: req.originalUrl.split("?")[0],
       status: res.statusCode,
       durationMs: Date.now() - startedAt,
-      userId: req.user?._id ? String(req.user._id) : undefined,
+      userId: req.user?._id ? String(req.user._id) : res.locals.userId,
     });
   });
 

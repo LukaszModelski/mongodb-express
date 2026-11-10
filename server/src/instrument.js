@@ -30,7 +30,7 @@ Sentry.init({
   dsn: process.env.SENTRY_DSN,
   environment: process.env.SENTRY_ENVIRONMENT || process.env.NODE_ENV || "development",
   sendDefaultPii: false,
-  initialScope: { tags: { app: "api" } },
+  initialScope: { tags: { app: "Node Express" } },
   beforeSend: scrubEvent,
   beforeBreadcrumb: (breadcrumb) => {
     if (breadcrumb.data?.url) {

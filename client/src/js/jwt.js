@@ -3,6 +3,7 @@ import { jwtDecode } from "jwt-decode";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import cookie from "cookie";
 import { isNative } from "./utils";
+import { logError } from "./logger";
 
 const NATIVE_ACCESS_KEY = "@jwt";
 const NATIVE_REFRESH_KEY = "@refreshToken";
@@ -31,7 +32,7 @@ export const checkJWTValid = (jwt) => {
     }
     return true;
   } catch (err) {
-    console.error(err);
+    logError(err, "jwt.checkValid");
     return false;
   }
 };
@@ -62,7 +63,7 @@ export const clearAuthTokens = async () => {
     try {
       await AsyncStorage.multiRemove([NATIVE_ACCESS_KEY, NATIVE_REFRESH_KEY]);
     } catch (error) {
-      console.error(error);
+      logError(error, "jwt.clearTokens");
     }
   } else {
     document.cookie = `${WEB_ACCESS_KEY}=; max-age=0`;
@@ -75,7 +76,7 @@ const getFromNative = async (key) => {
     const value = await AsyncStorage.getItem(key);
     return value;
   } catch (error) {
-    console.error(error);
+    logError(error, "jwt.readNative");
     return false;
   }
 };
@@ -89,7 +90,7 @@ const saveInNativeStorage = async (key, value) => {
   try {
     await AsyncStorage.setItem(key, value);
   } catch (error) {
-    console.error(error);
+    logError(error, "jwt.saveNative");
   }
 };
 

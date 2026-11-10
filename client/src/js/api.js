@@ -1,4 +1,5 @@
 import axios from "axios";
+import { logError, logInfo } from "./logger";
 import { setIsUserSignedIn } from "../store/actions";
 import {
   getJWT,
@@ -8,11 +9,11 @@ import {
   checkJWTValid,
 } from "./jwt";
 
-const domain = "http://czapafunbox.ddns.net:8080/";
+// const domain = "http://czapafunbox.ddns.net:8080/";
 // const domain = "https://expenses-sxp4.onrender.com/";
 // const domain = 'https://nodejs-expenses.herokuapp.com/';
 //expenses-sxp4.onrender.com/
-// const domain = "http://localhost:3000/";
+const domain = "http://localhost:3000/";
 
 let refreshInFlight = null;
 
@@ -57,7 +58,7 @@ export const restoreSession = async () => {
       return false;
     }
     // Network/server problem: we can't tell if the session is dead, so keep it.
-    console.error(error);
+    logError(error, "api.restoreSession");
     return true;
   }
 };
@@ -99,9 +100,10 @@ export const handleAPIerror = async (error, dispatch) => {
   if (isAuthFailure(error)) {
     await clearAuthTokens();
     dispatch(setIsUserSignedIn(false));
+    logInfo("Session expired, user logged out");
     console.info("Session expired, redirecting to login");
   } else {
-    console.error(error);
+    logError(error, "api.request");
   }
 };
 

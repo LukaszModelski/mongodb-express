@@ -10,6 +10,7 @@ import {
 } from "../../store/actions";
 import { Notifications } from "../../components/notifications/Notifications";
 import { loginUser } from "../../js/api";
+import { logError } from "../../js/logger";
 import { viewStyles } from "../../styles/view.styles";
 import { loginViewStyles } from "./LoginView.styles";
 
@@ -25,10 +26,10 @@ export const LoginView = () => {
         await loginUser(email, password);
         dispatch(setIsUserSignedIn(true));
       } catch (error) {
-        console.error(error);
         if (error.response && error.response.status === 401) {
           dispatch(setNotificationLoginFail(true));
         } else {
+          logError(error, "login");
           dispatch(setNotificationFail(true));
         }
       }

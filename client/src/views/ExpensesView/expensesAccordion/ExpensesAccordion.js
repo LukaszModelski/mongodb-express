@@ -15,7 +15,7 @@ export const sortOptions = {
   category: "category",
 };
 
-const sortingFunctions = {
+export const sortingFunctions = {
   [sortOptions.date]: sortByDate,
   [sortOptions.price]: sortByPrice,
   [sortOptions.category]: sortByCategory,

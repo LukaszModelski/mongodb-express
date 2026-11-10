@@ -69,3 +69,26 @@ export const deleteExpense = (expensesObj, expToDelete) => {
     ),
   };
 };
+
+export const SEARCH_MIN_LENGTH = 3;
+
+/**
+ * @function
+ * @param {Object} expensesObj - expenses grouped by month, ex. { "2021.09": [expense, ...] }
+ * @param {string} query - text typed by the user
+ * @returns {Array} Expenses whose description contains the query (case insensitive),
+ * newest first. Empty until the query has at least SEARCH_MIN_LENGTH characters.
+ */
+export const searchExpensesByDescription = (expensesObj, query) => {
+  const phrase = (query || "").trim().toLowerCase();
+  if (phrase.length < SEARCH_MIN_LENGTH) {
+    return [];
+  }
+  return Object.values(expensesObj || {})
+    .flat()
+    .filter(
+      (expense) =>
+        expense.description && expense.description.toLowerCase().includes(phrase),
+    )
+    .sort((a, b) => (a.date >= b.date ? -1 : 1));
+};

@@ -44,6 +44,10 @@ export const LoginView = () => {
         onChangeText={(text) => setEmail(text)}
         placeholder="email"
         style={loginViewStyles.input}
+        keyboardType="email-address"
+        autoCapitalize="none"
+        autoComplete="username"
+        textContentType="username"
       />
       <TextInput
         secureTextEntry={true}

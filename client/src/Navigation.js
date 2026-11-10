@@ -5,6 +5,7 @@ import { ExpensesView } from "./views/ExpensesView/ExpensesView";
 import { AddExpenseView } from "./views/AddExpenseView/AddExpenseView";
 import { ChartView } from "./views/ChartView/ChartView";
 import { LoginView } from "./views/LoginView/LoginView";
+import { SearchView } from "./views/SearchView/SearchView";
 import { useDispatch, useSelector } from "react-redux";
 import { SplashView } from "./views/SplashView/SplashView";
 import { setIsUserSignedIn } from "./store/actions";
@@ -44,6 +45,11 @@ export const Navigation = () => {
               options={{ title: "New Expense" }}
               name="AddExpenseView"
               component={AddExpenseView}
+            />
+            <Stack.Screen
+              options={{ title: "Search" }}
+              name="SearchView"
+              component={SearchView}
             />
             <Stack.Screen
               options={{ title: "Chart" }}

@@ -1,5 +1,11 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { View, Button, ScrollView, ActivityIndicator } from "react-native";
+import {
+  View,
+  Button,
+  ScrollView,
+  ActivityIndicator,
+  TouchableOpacity,
+} from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import { ExpensesAccordion } from "./expensesAccordion/ExpensesAccordion";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,6 +15,8 @@ import {
   clearNotifications,
 } from "../../store/actions";
 import { viewStyles } from "../../styles/view.styles";
+import { expensesViewStyles } from "./ExpensesView.styles";
+import { SearchIcon } from "../../components/svg/SearchIcon";
 import { utilStyles } from "../../styles/utils.styles";
 import { colors } from "../../vars/colors";
 import {
@@ -76,7 +84,7 @@ export const ExpensesView = ({ navigation }) => {
 
   return (
     <View style={viewStyles.container}>
-      <ScrollView>
+      <ScrollView contentContainerStyle={expensesViewStyles.listContent}>
         <Button
           title="New expense"
           onPress={() => navigation.navigate("AddExpenseView")}
@@ -88,6 +96,13 @@ export const ExpensesView = ({ navigation }) => {
           <ActivityIndicator size="large" color={colors.blue} />
         )}
       </ScrollView>
+      <TouchableOpacity
+        accessibilityLabel="Search expenses"
+        onPress={() => navigation.navigate("SearchView")}
+        style={expensesViewStyles.searchButton}
+      >
+        <SearchIcon size={21} />
+      </TouchableOpacity>
     </View>
   );
 };

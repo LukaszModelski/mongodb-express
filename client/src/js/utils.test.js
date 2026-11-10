@@ -1,4 +1,10 @@
-import { formatDate, validateAmount, deleteExpense, appendExpense } from "./utils";
+import {
+  formatDate,
+  validateAmount,
+  deleteExpense,
+  appendExpense,
+  searchExpensesByDescription,
+} from "./utils";
 
 const expenseObj = {
   '2021.02': [
@@ -153,5 +159,38 @@ describe('deleteExpense function', function () {
 describe('appendExpense function', function () {
   test('append expense', () => {
     expect(appendExpense(expenseObj, expenseToAppend)).toEqual(expenseObjAfterAppend);
+  });
+});
+
+describe("searchExpensesByDescription", () => {
+  const expenses = {
+    "2021.09": [
+      { _id: "1", description: "Pizza with friends", date: "2021-09-10T18:00:00.000Z" },
+      { _id: "2", description: "Gym pass", date: "2021-09-12T18:00:00.000Z" },
+    ],
+    "2021.10": [
+      { _id: "3", description: "pizzeria", date: "2021-10-01T18:00:00.000Z" },
+      { _id: "4", date: "2021-10-02T18:00:00.000Z" },
+    ],
+  };
+  const ids = (list) => list.map((e) => e._id);
+
+  test("returns nothing for fewer than 3 characters", () => {
+    expect(searchExpensesByDescription(expenses, "pi")).toEqual([]);
+    expect(searchExpensesByDescription(expenses, "  pi ")).toEqual([]);
+  });
+
+  test("matches letters anywhere in the description, ignoring case", () => {
+    expect(ids(searchExpensesByDescription(expenses, "PIZ"))).toEqual(["3", "1"]);
+    expect(ids(searchExpensesByDescription(expenses, "ym p"))).toEqual(["2"]);
+  });
+
+  test("narrows down as more letters are typed", () => {
+    expect(ids(searchExpensesByDescription(expenses, "pizz"))).toEqual(["3", "1"]);
+    expect(ids(searchExpensesByDescription(expenses, "pizza"))).toEqual(["1"]);
+  });
+
+  test("ignores expenses without a description", () => {
+    expect(searchExpensesByDescription(expenses, "xyz")).toEqual([]);
   });
 });

@@ -9,11 +9,11 @@ import {
   checkJWTValid,
 } from "./jwt";
 
-// const domain = "http://czapafunbox.ddns.net:8080/";
+const domain = "http://czapafunbox.ddns.net:8080/";
 // const domain = "https://expenses-sxp4.onrender.com/";
 // const domain = 'https://nodejs-expenses.herokuapp.com/';
 //expenses-sxp4.onrender.com/
-const domain = "http://localhost:3000/";
+// const domain = "http://localhost:3000/";
 
 let refreshInFlight = null;
 

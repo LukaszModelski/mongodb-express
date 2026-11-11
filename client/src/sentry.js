@@ -22,10 +22,9 @@ Sentry.init({
   enabled: Boolean(SENTRY_DSN),
   environment: __DEV__ ? "development" : "production",
   sendDefaultPii: false,
-  enableLogs: true,
   // Only logs written explicitly with Sentry.logger reach Sentry,
   // console.* output is not forwarded.
-  enableAutoConsoleLogs: false,
+  enableLogs: true,
   initialScope: { tags: { app: "React Native" } },
   beforeBreadcrumb: scrubBreadcrumb,
   beforeSend: (event) => {

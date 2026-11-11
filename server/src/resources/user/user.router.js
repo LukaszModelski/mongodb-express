@@ -32,6 +32,12 @@ router.route("/signup").post(async (req, res) => {
     }
     const hasedPassword = await bcryptjs.hash(password, 10);
     const newUser = await User.create({ email, password: hasedPassword });
+
+    // Lets requestLogger attach the userId to this request's log entry.
+    res.locals.userId = String(newUser._id);
+
+    // The new user is logged in right away, so they get the same tokens as after /login.
+    const tokens = await getAuthTokens(newUser);
     return res
       .status(201)
       .send({
@@ -39,6 +45,8 @@ router.route("/signup").post(async (req, res) => {
           _id: newUser._id,
           email: newUser.email,
         },
+        token: tokens.token,
+        refreshToken: tokens.refreshToken,
         message: "New user created succesfully.",
       })
       .end();

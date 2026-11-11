@@ -132,9 +132,10 @@ router.route("/month/:year/:month").get(async (req, res) => {
     return 0;
   });
 
-  return res
-    .status(200)
-    .send({ [dateCurrentMonthString.replace("-", ".")]: expenses, categories });
+  return res.status(200).send({
+    data: { [dateCurrentMonthString.replace("-", ".")]: expenses },
+    categories,
+  });
 });
 
 export default router;

@@ -17,6 +17,7 @@ import {
 import { viewStyles } from "../../styles/view.styles";
 import { expensesViewStyles } from "./ExpensesView.styles";
 import { SearchIcon } from "../../components/svg/SearchIcon";
+import { UserIcon } from "../../components/svg/UserIcon";
 import { utilStyles } from "../../styles/utils.styles";
 import { colors } from "../../vars/colors";
 import {
@@ -96,6 +97,13 @@ export const ExpensesView = ({ navigation }) => {
           <ActivityIndicator size="large" color={colors.blue} />
         )}
       </ScrollView>
+      <TouchableOpacity
+        accessibilityLabel="User account"
+        onPress={() => navigation.navigate("UserView")}
+        style={expensesViewStyles.userButton}
+      >
+        <UserIcon size={21} />
+      </TouchableOpacity>
       <TouchableOpacity
         accessibilityLabel="Search expenses"
         onPress={() => navigation.navigate("SearchView")}

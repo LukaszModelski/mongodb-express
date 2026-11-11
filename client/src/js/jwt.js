@@ -24,6 +24,23 @@ export const getRefreshToken = async () => {
   return getFromWebCookies(WEB_REFRESH_KEY);
 };
 
+/**
+ * @returns {Promise<string|null>} Email (login) of the signed in user, read from
+ * the access token payload. Works even if the token has just expired.
+ */
+export const getUserEmail = async () => {
+  const token = await getJWT();
+  if (!token) {
+    return null;
+  }
+  try {
+    return jwtDecode(token).user?.email || null;
+  } catch (err) {
+    logError(err, "jwt.getUserEmail");
+    return null;
+  }
+};
+
 export const checkJWTValid = (jwt) => {
   try {
     const { exp } = jwtDecode(jwt);

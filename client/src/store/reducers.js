@@ -5,6 +5,7 @@ import {
   DELETE_EXPENSE,
   SET_EXPENSES_CATEGORIES,
   SET_SUM,
+  CLEAR_EXPENSES,
   CLEAR_NOTIFICATIONS,
   SET_NOTIFICATION_SUCCESS,
   SET_NOTIFICATION_FAIL,
@@ -50,6 +51,14 @@ export function reducers(state = initialState, action) {
       return {
         ...state,
         expensesCategories: action.expensesCategories,
+      };
+    }
+    case CLEAR_EXPENSES: {
+      return {
+        ...state,
+        expenses: initialState.expenses,
+        expensesCategories: initialState.expensesCategories,
+        sum: initialState.sum,
       };
     }
     case SET_SUM: {

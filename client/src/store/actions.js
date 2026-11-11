@@ -8,6 +8,7 @@ export const ADD_EXPENSE = "ADD_EXPENSE";
 export const DELETE_EXPENSE = "DELETE_EXPENSE";
 export const SET_EXPENSES_CATEGORIES = "SET_EXPENSES_CATEGORIES";
 export const SET_SUM = "SET_SUM";
+export const CLEAR_EXPENSES = "CLEAR_EXPENSES";
 
 // notifications
 export const CLEAR_NOTIFICATIONS = "CLEAR_NOTIFICATIONS";
@@ -41,6 +42,10 @@ export function deleteExpense(expense) {
 
 export function setExpensesCategories(expensesCategories) {
   return { type: SET_EXPENSES_CATEGORIES, expensesCategories };
+}
+
+export function clearExpenses() {
+  return { type: CLEAR_EXPENSES };
 }
 
 export function setSum(sum) {

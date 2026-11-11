@@ -20,7 +20,7 @@ router.route("/signup").post(async (req, res) => {
     return res.status(400).send({ message: "email or password missing in request." }).end();
   }
   if (!validateEmail(email)) {
-    return res.status(409).send({ message: "Wrong email format" }).end();
+    return res.status(400).send({ message: "Wrong email format" }).end();
   }
   try {
     const user = await User.findOne({ email: email });
@@ -44,6 +44,7 @@ router.route("/signup").post(async (req, res) => {
       .end();
   } catch (err) {
     logError(err, "user.signup");
+    return res.status(500).send({ message: "Could not create account." }).end();
   }
 });
 

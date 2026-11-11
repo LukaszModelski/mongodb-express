@@ -38,6 +38,11 @@ export const expensesViewStyles = StyleSheet.create({
     ...floatingButton,
     right: 20,
   },
+  emptyState: {
+    color: colors.gray,
+    textAlign: "center",
+    marginTop: 20,
+  },
   sum: {
     color: colors.gray,
     fontWeight: "700",

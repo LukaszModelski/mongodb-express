@@ -107,6 +107,19 @@ export const handleAPIerror = async (error, dispatch) => {
   }
 };
 
+export const createAccount = async (email, password) => {
+  const res = await axios.post(`${domain}api/user/signup`, {
+    email,
+    password,
+  });
+  if (!res.data?.token || !res.data?.refreshToken) {
+    throw new Error("Auth response is missing tokens");
+  }
+  // The new user is logged in right away.
+  await saveAuthTokens(res.data.token, res.data.refreshToken);
+  return res;
+};
+
 export const loginUser = async (email, password) => {
   const res = await axios.post(`${domain}api/user/login`, {
     email,

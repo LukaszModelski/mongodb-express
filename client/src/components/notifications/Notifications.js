@@ -12,6 +12,8 @@ export const Notifications = () => {
       { showNotification.fail ? <Text style={notificationsStyles.notificationFalse}>Something went wrong.</Text> : <></> }
       { showNotification.loginSuccess ? <Text style={notificationsStyles.notificationSuccess}>Login successful.</Text> : <></> }
       { showNotification.loginFail ? <Text style={notificationsStyles.notificationFalse}>Login failed. Wrong email or password.</Text> : <></> }
+      { showNotification.accountCreated ? <Text style={notificationsStyles.notificationSuccess}>Account created successfully. Welcome!</Text> : <></> }
+      { showNotification.emailTaken ? <Text style={notificationsStyles.notificationFalse}>An account with this email already exists.</Text> : <></> }
       { showNotification.amountRequired ? <Text style={notificationsStyles.notificationFalse}>"Amount" is required and must be a solid number. </Text> : <></> }
       { showNotification.emailAndPassRequired ? <Text style={notificationsStyles.notificationFalse}>"Email" and "Password" fields are required. </Text> : <></> }
     </View>

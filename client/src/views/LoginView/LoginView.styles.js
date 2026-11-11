@@ -9,4 +9,10 @@ export const loginViewStyles = StyleSheet.create({
     paddingHorizontal: 5,
     marginBottom: 10,
   },
+  createAccountHint: {
+    color: colors.gray,
+    textAlign: "center",
+    marginTop: 20,
+    marginBottom: 10,
+  },
 });

@@ -20,6 +20,9 @@ export const SET_NOTIFICATION_AMOUNT_REQUIRED =
   "SET_NOTIFICATION_AMOUNT_REQUIRED";
 export const SET_NOTIFICATION_EMAIL_AND_PASS_REQUIRED =
   "SET_NOTIFICATION_EMAIL_AND_PASS_REQUIRED";
+export const SET_NOTIFICATION_ACCOUNT_CREATED =
+  "SET_NOTIFICATION_ACCOUNT_CREATED";
+export const SET_NOTIFICATION_EMAIL_TAKEN = "SET_NOTIFICATION_EMAIL_TAKEN";
 
 // action creators
 // user
@@ -79,4 +82,12 @@ export function setNotificationAmountRequired(state) {
 
 export function setNotificationEmailAndPassRequired(state) {
   return { type: SET_NOTIFICATION_EMAIL_AND_PASS_REQUIRED, state };
+}
+
+export function setNotificationAccountCreated(state) {
+  return { type: SET_NOTIFICATION_ACCOUNT_CREATED, state };
+}
+
+export function setNotificationEmailTaken(state) {
+  return { type: SET_NOTIFICATION_EMAIL_TAKEN, state };
 }

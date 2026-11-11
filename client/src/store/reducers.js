@@ -13,6 +13,8 @@ import {
   SET_NOTIFICATION_LOGIN_FAIL,
   SET_NOTIFICATION_AMOUNT_REQUIRED,
   SET_NOTIFICATION_EMAIL_AND_PASS_REQUIRED,
+  SET_NOTIFICATION_ACCOUNT_CREATED,
+  SET_NOTIFICATION_EMAIL_TAKEN,
 } from "./actions";
 
 import { appendExpense, deleteExpense } from "../js/utils";
@@ -116,6 +118,24 @@ export function reducers(state = initialState, action) {
         showNotification: {
           ...state.showNotification,
           amountRequired: action.state,
+        },
+      };
+    }
+    case SET_NOTIFICATION_EMAIL_TAKEN: {
+      return {
+        ...state,
+        showNotification: {
+          ...state.showNotification,
+          emailTaken: action.state,
+        },
+      };
+    }
+    case SET_NOTIFICATION_ACCOUNT_CREATED: {
+      return {
+        ...state,
+        showNotification: {
+          ...state.showNotification,
+          accountCreated: action.state,
         },
       };
     }
